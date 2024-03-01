@@ -1,11 +1,10 @@
 <script setup>
-// import { RouterLink, RouterView } from 'vue-router'
-import MarkdownParser from './components/MarkdownParser.vue'
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
   <div id="app">
-    <MarkdownParser />
+    <RouterView />
   </div>
 </template>
 
