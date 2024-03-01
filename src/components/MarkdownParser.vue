@@ -3,8 +3,6 @@ import { ref, onMounted, onUpdated } from 'vue'
 
 const markdown = ref('')
 /* 
-KUY
----
 # Heading level 1
 ## Heading level 2
 ### Heading level 3 
@@ -18,7 +16,11 @@ _italic text_
 `word`
  * First item
  + Second item
-[Guide](https://www.google.com) 
+
+[Guide](https://www.google.com)
+KUY
+---
+~~KODGAY~~
 */
 const parsedMarkdown = ref('')
 
@@ -113,18 +115,20 @@ function applyRules(text) {
       </div>
     </div>
 
-    <div class="flex justify-evenly items-center">
+
+    <div class="flex justify-between items-center">
       <div class="flex justify-center flex-col">
         <h2 class="text-center">Markdown</h2>
         <textarea
-          class="bg-black text-white border-none outline-none rounded-md break-words overflow-auto h-96 w-96 p-4"
+          class="bg-black text-white rounded-xl border-none resize-none outline-none break-words overflow-auto h-screen w-[49vw] p-4 m-1"
+
           v-model="markdown"
         />
       </div>
       <div class="flex justify-center flex-col">
         <h2 class="text-center">Preview</h2>
         <div
-          class="prose bg-black text-white overflow-auto h-96 w-96 p-1"
+          class="prose bg-black text-white rounded-xl overflow-auto h-screen w-[49vw] p-4 m-1"
           v-html="parsedMarkdown"
         ></div>
       </div>

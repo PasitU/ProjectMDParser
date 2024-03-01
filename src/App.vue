@@ -1,12 +1,7 @@
 
-<script>
-import MarkdownParser from './components/MarkdownParser.vue';
-
-export default {
-  components: {
-    MarkdownParser,
-  },
-};
+<script setup>
+// import { RouterLink, RouterView } from 'vue-router'
+import MarkdownParser from './components/MarkdownParser.vue'
 </script>
 
 <template>
@@ -15,6 +10,6 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Add some custom styles here */
 </style>
