@@ -1,7 +1,7 @@
 <script setup>
-import { applyRules } from '@/utils/parser';
+import { applyRules, initialText } from '@/utils/parser';
 import { ref, onMounted, onUpdated } from 'vue'
-const markdown = ref('')
+const markdown = ref(initialText)
 
 const parsedMarkdown = ref('')
 

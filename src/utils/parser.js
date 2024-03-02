@@ -7,11 +7,11 @@
 ###### Heading level 6 
 __bold text__ 
 **bold text** 
-_italic text_
 *italic text*
 `word`
  * First item
  + Second item
+ - Third item
 [Guide](https://www.google.com)
 TEST
 ---
@@ -34,8 +34,6 @@ const rules = [
   [/\*\*\s?([^\n]+)\*\*/g, '<b>$1</b>'],
   [/\*\s?([^\n]+)\*/g, '<i>$1</i>'],
   [/__([^_]+)__/g, '<b>$1</b>'],
-  [/_([^_`]+)_/g, '<i>$1</i>'],
-  [/^(?!<[huli>])([^\n]+)$/gm, '<p>$1</p>'],
 
   // links
   [/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:#2A5DB0;text-decoration: none;">$1</a>'],
@@ -52,12 +50,16 @@ const rules = [
   // Horizontal
   [/-{3,}/g, '<hr>'],
 
+  // Quote
+  [/^>\s?([^\n]+)/gm, '<blockquote>$1</blockquote>'],
+
   // Strikethrough
-  [/~~([^~]+)~~/g, '<del>$1</del>']
+  [/~~([^~]+)~~/g, '<del>$1</del>'],
+  [/^(?!<[huli>])([^\n]+)$/gm, '<p>$1</p>']
 ]
 
 function wrapListItems(transformed) {
-  return transformed.replace(/(<li>.+<\/li>)(\s*<li>.+<\/li>)*/g, '<ul class="list">$&</ul>')
+  return transformed.replace(/(<li>.+<\/li>)(\s*<li>.+<\/li>)*/g, '<ul>$&</ul>')
 }
 
 export function applyRules(text) {
@@ -66,7 +68,26 @@ export function applyRules(text) {
     (acc, [regex, replacement]) => acc.replace(regex, replacement),
     text
   )
-  
+
   transformed = wrapListItems(transformed)
   return transformed.replace(/\n<\/ul>/g, '</ul>')
 }
+
+export const initialText = `
+# Test
+---
+## Heading 2
+### Heading 3
+Bunch of idiots shit
+- test 1
+* test 2
++ test 3
+You can [Click this link here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
+__bold text__ 
+**bold text** 
+_italic text_
+*italic text*
+\`word\`
+~~TEST~~
+> Block Quote
+`
