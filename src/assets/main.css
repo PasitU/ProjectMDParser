@@ -6,27 +6,25 @@
 
 @layer base {
   h1 {
-    @apply text-2xl;
-    @apply font-bold;
+    @apply text-2xl font-bold
   }
   h2 {
-    @apply text-xl;
-    @apply font-bold;
+    @apply text-xl font-bold;
   }
   h3 {
-    @apply text-lg;
-    @apply font-bold;
+    @apply text-lg font-bold;
   }
   h4 {
-    @apply text-base;
-    @apply font-bold;
+    @apply text-base font-bold;
   }
   h5 {
-    @apply text-sm;
-    @apply font-bold;
+    @apply text-sm font-bold;
   }
   h6 {
-    @apply text-xs;
-    @apply font-bold;
+    @apply text-xs font-bold;
   }
+}
+
+.list {
+  @apply list-inside list-disc;
 }

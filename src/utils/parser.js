@@ -19,6 +19,9 @@ TEST
 */
 
 const rules = [
+  // Lists
+  [/^\s*(\*|\+|-)\s+(.+)$/gm, '<li>$2</li>'],
+
   // headers
   [/#{6}\s?([^\n]+)/g, '<h6>$1</h6>'],
   [/#{5}\s?([^\n]+)/g, '<h5>$1</h5>'],
@@ -32,7 +35,7 @@ const rules = [
   [/\*\s?([^\n]+)\*/g, '<i>$1</i>'],
   [/__([^_]+)__/g, '<b>$1</b>'],
   [/_([^_`]+)_/g, '<i>$1</i>'],
-  [/([^\n]+\n?)/g, '<p>$1</p>'],
+  [/^(?!<[huli>])([^\n]+)$/gm, '<p>$1</p>'],
 
   // links
   [/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:#2A5DB0;text-decoration: none;">$1</a>'],
@@ -43,12 +46,8 @@ const rules = [
     '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$2</span>'
   ],
 
-  // Lists
-  [/([^\n]+)(\+)([^\n]+)/g, '<ul><li>$3</li></ul>'],
-  [/([^\n]+)(\*)([^\n]+)/g, '<ul><li>$3</li></ul>'],
-
-  // Image
-  [/!\[([^\]]+)\]\(([^)]+)\s"([^")]+)"\)/g, '<img src="$2" alt="$1" title="$3" />'],
+  // // Image
+  // [/!\[([^\]]+)\]\(([^)]+)\s"([^")]+)"\)/g, '<img src="$2" alt="$1" title="$3" />'],
 
   // Horizontal
   [/-{3,}/g, '<hr>'],
@@ -57,7 +56,17 @@ const rules = [
   [/~~([^~]+)~~/g, '<del>$1</del>']
 ]
 
-export function applyRules(text) {
-  return rules.reduce((acc, [regex, replacement]) => acc.replace(regex, replacement), text)
+function wrapListItems(transformed) {
+  return transformed.replace(/(<li>.+<\/li>)(\s*<li>.+<\/li>)*/g, '<ul class="list">$&</ul>')
 }
 
+export function applyRules(text) {
+  // Apply the rules to transform Markdown to HTML
+  let transformed = rules.reduce(
+    (acc, [regex, replacement]) => acc.replace(regex, replacement),
+    text
+  )
+  
+  transformed = wrapListItems(transformed)
+  return transformed.replace(/\n<\/ul>/g, '</ul>')
+}

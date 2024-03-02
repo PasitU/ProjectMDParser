@@ -1,6 +1,6 @@
 <script setup>
+import { applyRules } from '@/utils/parser';
 import { ref, onMounted, onUpdated } from 'vue'
-import { applyRules } from '@/utils/parser'
 const markdown = ref('')
 
 const parsedMarkdown = ref('')
@@ -14,23 +14,6 @@ function parseMarkdown() {
 </script>
 
 <template>
-  <!-- <div class="container">
-    <div class="preview">
-      <div class="row">
-        <div class="col">
-          <h2 class="align">Markdown</h2>
-          <textarea class="inf" v-model="markdown" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <h2 class="align">Preview</h2>
-          <div class="info" v-html="parsedMarkdown"></div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
   <div>
     <div class="flex justify-between bg-red-500 text-white">
       <div class="flex items-center p-2">
