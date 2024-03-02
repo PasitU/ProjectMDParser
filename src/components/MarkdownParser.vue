@@ -15,7 +15,7 @@ function parseMarkdown() {
 
 <template>
   <div>
-    <div class="flex justify-between bg-red-500 text-white">
+    <div class="flex justify-between">
       <div class="flex items-center p-2">
         <ul class="flex items-center gap-7">
           <li>HamburgerMenu</li>
@@ -36,22 +36,20 @@ function parseMarkdown() {
       </div>
     </div>
 
-
     <div class="flex justify-between items-center">
       <div class="flex justify-center flex-col">
         <h2 class="text-center">Markdown</h2>
         <textarea
-          class="bg-black text-white rounded-xl border-none resize-none outline-none break-words overflow-auto h-screen w-[49vw] p-4 m-1"
-
+          class="bg-base-300 rounded-xl border-none resize-none outline-none break-words overflow-auto h-screen w-[49vw] p-4 m-1"
           v-model="markdown"
         />
       </div>
-      <div class="flex justify-center flex-col">
+      <div class="flex justify-center flex-col ">
         <h2 class="text-center">Preview</h2>
-        <div
-          class="prose bg-black text-white rounded-xl overflow-auto h-screen w-[49vw] p-4 m-1"
+        <article
+          class="bg-base-300 prose-slate prose rounded-xl overflow-auto h-screen w-[49vw] p-4 m-1"
           v-html="parsedMarkdown"
-        ></div>
+        ></article>
       </div>
     </div>
   </div>

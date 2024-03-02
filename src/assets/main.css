@@ -24,7 +24,3 @@
     @apply text-xs font-bold;
   }
 }
-
-.list {
-  @apply list-inside list-disc;
-}
