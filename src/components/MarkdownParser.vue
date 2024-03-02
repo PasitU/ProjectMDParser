@@ -36,11 +36,13 @@ function parseMarkdown() {
       </div>
     </div>
 
+
     <div class="flex justify-between items-center">
       <div class="flex justify-center flex-col">
         <h2 class="text-center">Markdown</h2>
         <textarea
           class="bg-black text-white rounded-xl border-none resize-none outline-none break-words overflow-auto h-screen w-[49vw] p-4 m-1"
+
           v-model="markdown"
         />
       </div>
