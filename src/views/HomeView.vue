@@ -1,9 +1,15 @@
+<template>
+    <div>
+        <MarkdownParser />
+    </div>
+</template>
+
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import MarkdownParser from '@/components/MarkdownParser.vue';
+
+
 </script>
 
-<template>
-  <main>
-    <TheWelcome />
-  </main>
-</template>
+<style lang="scss" scoped>
+
+</style>
