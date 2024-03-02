@@ -1,10 +1,8 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
 
-@layer base {
+/* @layer base {
   h1 {
     @apply text-2xl font-bold
   }
@@ -23,4 +21,4 @@
   h6 {
     @apply text-xs font-bold;
   }
-}
+} */
