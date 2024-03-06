@@ -1,32 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
 
-@layer base {
-  h1 {
-    @apply text-2xl;
-    @apply font-bold;
-  }
-  h2 {
-    @apply text-xl;
-    @apply font-bold;
-  }
-  h3 {
-    @apply text-lg;
-    @apply font-bold;
-  }
-  h4 {
-    @apply text-base;
-    @apply font-bold;
-  }
-  h5 {
-    @apply text-sm;
-    @apply font-bold;
-  }
-  h6 {
-    @apply text-xs;
-    @apply font-bold;
-  }
-}
+
+
+
