@@ -32,7 +32,7 @@ function parseMarkdown() {
     <div class="flex flex-col h-screen border-r-2 border-base-100">
       <h2 class="bg-base-200 p-2 text-xl">Markdown</h2>
       <textarea
-        class="bg-base-300 preview leading-relaxed border-none resize-x outline-none break-words overflow-y-scroll p-4"
+        class="bg-base-300 preview leading-relaxed border-none resize-none outline-none break-words overflow-y-scroll p-4"
         v-model="markdown"
       />
     </div>
