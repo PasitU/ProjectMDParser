@@ -14,6 +14,7 @@ __bold text__
  - Third item
 [Guide](https://www.google.com)
 TEST
+> blockquote
 ---
 ~~TEST~~
 */
@@ -62,7 +63,7 @@ function wrapListItems(transformed) {
   return transformed.replace(/(<li>.+<\/li>)(\s*<li>.+<\/li>)*/g, '<ul>$&</ul>')
 }
 
-export function applyRules(text) {
+export function parseToMarkdown(text) {
   // Apply the rules to transform Markdown to HTML
   let transformed = rules.reduce(
     (acc, [regex, replacement]) => acc.replace(regex, replacement),
@@ -78,7 +79,7 @@ export const initialText = `
 ---
 ## Heading 2
 ### Heading 3
-Bunch of idiots shit
+This is a test paragraph
 - test 1
 * test 2
 + test 3

@@ -1,5 +1,5 @@
 <script setup>
-import { applyRules, initialText } from '@/utils/parser';
+import { parseToMarkdown, initialText } from '@/utils/parser';
 import { ref, onMounted, onUpdated } from 'vue'
 const markdown = ref(initialText)
 
@@ -9,12 +9,13 @@ onMounted(parseMarkdown)
 onUpdated(parseMarkdown)
 
 function parseMarkdown() {
-  parsedMarkdown.value = applyRules(markdown.value)
+  parsedMarkdown.value = parseToMarkdown(markdown.value)
 }
+
 </script>
 
 <template>
-  <div>
+  <section>
     <div class="flex justify-between">
       <div class="flex items-center p-2">
         <ul class="flex items-center gap-7">
@@ -36,23 +37,23 @@ function parseMarkdown() {
       </div>
     </div>
 
-    <div class="flex justify-between items-center">
+    <div class="grid grid-cols-2 gap-3 justify-center">
       <div class="flex justify-center flex-col">
         <h2 class="text-center">Markdown</h2>
         <textarea
-          class="bg-base-300 rounded-xl border-none resize-none outline-none break-words overflow-auto h-screen w-[49vw] p-4 m-1"
+          class="bg-base-300 text-xl rounded-xl border-none resize-none outline-none min-h-screen break-words overflow-auto p-4"
           v-model="markdown"
         />
       </div>
-      <div class="flex justify-center flex-col ">
+      <div class="flex flex-col">
         <h2 class="text-center">Preview</h2>
         <article
-          class="bg-base-300 prose-slate prose rounded-xl overflow-auto h-screen w-[49vw] p-4 m-1"
+          class="w-full bg-base-300 min-w-full min-h-screen prose-slate prose rounded-xl overflow-y-scroll p-4"
           v-html="parsedMarkdown"
         ></article>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped></style>
