@@ -1,24 +1,21 @@
 <template>
-  <div class="flex justify-between">
+  <nav class="flex justify-between">
     <div class="flex items-center p-2">
-      <ul class="flex items-center gap-7">
-        <li>HamburgerMenu</li>
-        <li>Markdown</li>
-        <div class="flex flex-col justify-center text-center">
-          <p>Current File</p>
-          <p>Demo.md</p>
-        </div>
-      </ul>
+      <v-icon name="co-hamburger-menu" scale="2" />
     </div>
     <div class="flex items-center p-2 justify-center">
-      <ul class="flex items-center gap-7">
-        <li>Preview</li>
-        <li>Export</li>
-        <li>Icon1</li>
-        <li>Icon2</li>
-      </ul>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost">
+          <v-icon name="ri-delete-bin-5-fill" />
+        </button>
+        <button class="btn">
+          <v-icon name="ri-save-3-line" />
+          <h2 class="text-xl md:hidden">Save</h2>
+        </button>
+        <button class="btn">Preview</button>
+      </div>
     </div>
-  </div>
+  </nav>
 </template>
 
 <script setup></script>

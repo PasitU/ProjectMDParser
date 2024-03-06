@@ -18,7 +18,7 @@ function parseMarkdown() {
     <div class="flex flex-col h-screen border-r-2 border-base-100">
       <h2 class="text-center bg-base-200 p-2 text-2xl">Markdown</h2>
       <textarea
-        class="bg-base-300 text-xl h-screen border-none resize-none outline-none break-words overflow-y-auto p-4"
+        class="bg-base-300 leading-relaxed h-screen border-none resize-none outline-none break-words overflow-y-auto p-4"
         v-model="markdown"
       />
     </div>

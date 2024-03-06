@@ -74,8 +74,7 @@ export function parseToMarkdown(text) {
   return transformed.replace(/\n<\/ul>/g, '</ul>')
 }
 
-export const initialText = `
-# Test
+export const initialText = `# Test
 ---
 ## Heading 2
 ### Heading 3
