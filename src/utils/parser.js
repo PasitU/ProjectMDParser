@@ -33,8 +33,10 @@ const rules = [
 
   // bold, italics, and paragraph
   [/\*\*\s?([^\n]+)\*\*/g, '<b>$1</b>'],
-  [/\*\s?([^\n]+)\*/g, '<i>$1</i>'],
+  [/\*\s?([^\n]+)\*/g, '<p><i>$1</i></p>'],
   [/__([^_]+)__/g, '<b>$1</b>'],
+  [/_\s?([^\n]+)_/g, '<p><i>$1</i></p>'],
+
 
   // links
   [/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:#2A5DB0;text-decoration: none;">$1</a>'],
