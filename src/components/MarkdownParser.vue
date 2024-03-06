@@ -1,17 +1,17 @@
 <script setup>
 import { parseToMarkdown, initialText } from '@/utils/parser'
-import { ref, onMounted, onUpdated } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import SwapIcon from './SwapIcon.vue'
 const markdown = ref(initialText)
 
 const parsedMarkdown = ref('')
 
 onMounted(parseMarkdown)
-onUpdated(parseMarkdown)
+
+watch(markdown, parseMarkdown)
 
 function parseMarkdown() {
   parsedMarkdown.value = parseToMarkdown(markdown.value)
-  console.log(markdown.value);
 }
 </script>
 

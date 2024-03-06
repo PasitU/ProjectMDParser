@@ -1,7 +1,7 @@
 <template>
   <label class="btn btn-ghost btn-square swap" :class="swap ? 'swap-rotate' : ''">
     <!-- this hidden checkbox controls the state -->
-    <input type="checkbox" />
+    <input type="checkbox" @click="$emit('toggle')" />
 
     <!-- hamburger icon -->
     <div class="swap-off">
@@ -16,14 +16,9 @@
 </template>
 
 <script setup>
-
-defineEmits(['update:modalValue'])
+defineEmits(['toggle'])
 defineProps({
   swap: {
-    type: Boolean,
-    default: false
-  },
-  modalValue: {
     type: Boolean,
     default: false
   }

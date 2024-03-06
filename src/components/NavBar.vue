@@ -1,7 +1,7 @@
 <template>
   <nav class="flex justify-between">
     <div class="flex items-center p-2">
-      <SwapIcon :swap="true" >
+      <SwapIcon :swap="true" @toggle="toggleSidebar">
         <template #swap-off>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +42,9 @@
     <div class="flex items-center p-2 justify-center">
       <slot name="nav-link"></slot>
     </div>
+    <div class="bg-primary" v-show="isSidebarOpen">
+      <h1>TEST</h1>
+    </div>
   </nav>
 </template>
 
@@ -50,9 +53,13 @@ import { ref, watch } from 'vue'
 import SwapIcon from './SwapIcon.vue'
 const isSidebarOpen = ref(false)
 
+function toggleSidebar() {
+  isSidebarOpen.value = !isSidebarOpen.value
+}
 watch(isSidebarOpen, () => {
   console.log(isSidebarOpen.value)
 })
+
 </script>
 
 <style lang="scss" scoped></style>
