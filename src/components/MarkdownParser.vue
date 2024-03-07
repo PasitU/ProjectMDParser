@@ -60,9 +60,4 @@ function toggleMarkdown() {
 .preview {
   height: calc(100vh - 10rem);
 }
-@media (max-width: 600px) {
-  .hidden {
-    display: none;
-  }
-}
 </style>
