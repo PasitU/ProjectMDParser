@@ -34,7 +34,7 @@ function toggleMarkdown() {
       </SwapIcon>
     </div>
   </section>
-  <section class="justify-center" :class="{ 'grid grid-cols-2': showMarkdown }">
+  <section class="justify-center" :class="{ 'grid grid-cols-1 md:grid-cols-2': showMarkdown }">
     <div
       class="flex flex-col h-screen border-r-2 border-base-100"
       :class="{ hidden: !showMarkdown }"
@@ -45,12 +45,12 @@ function toggleMarkdown() {
         v-model="markdown"
       />
     </div>
-    <div class="flex flex-col">
+    <div class="flex-col bg-base-300 md:flex min-w-full" :class="{ hidden: showMarkdown }">
       <h2 class="bg-base-200 p-2 text-xl">Preview</h2>
       <article
-        class="p-5 preview w-full bg-base-300 lg:mx-auto max-lg:min-w-full h-screen prose-slate prose overflow-y-auto"
-        :class="{ 'min-w-full': showMarkdown }"
+        class="p-5 preview w-full lg:min-w-full bg-base-300 h-screen prose-slate prose overflow-y-auto"
         v-html="parsedMarkdown"
+        :class="{ 'mx-auto': !showMarkdown }"
       ></article>
     </div>
   </section>
