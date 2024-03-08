@@ -45,12 +45,12 @@ function toggleMarkdown() {
         v-model="markdown"
       />
     </div>
-    <div class="flex-col bg-base-300 md:flex min-w-full" :class="{ hidden: showMarkdown }">
+    <div class="flex-col bg-base-300 md:flex" :class="{ hidden: showMarkdown }">
       <h2 class="bg-base-200 p-2 text-xl">Preview</h2>
       <article
-        class="p-5 preview w-full lg:min-w-full bg-base-300 h-screen prose-slate prose overflow-y-auto"
+        class="p-5 preview min-w-full bg-base-300 h-screen prose-slate prose overflow-y-auto"
         v-html="parsedMarkdown"
-        :class="{ 'mx-auto': !showMarkdown }"
+        :class="{ 'md:mx-auto md:min-w-[45rem]': !showMarkdown }"
       ></article>
     </div>
   </section>
