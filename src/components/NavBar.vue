@@ -77,7 +77,7 @@ function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
 }
 watch(isSidebarOpen, () => {
-  console.log(isSidebarOpen.value)
+  // console.log(isSidebarOpen.value)
 })
 </script>
 
