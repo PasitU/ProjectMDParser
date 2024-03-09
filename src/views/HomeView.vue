@@ -21,6 +21,7 @@
 <script setup>
 import MarkdownParser from '@/components/MarkdownParser.vue'
 import NavBar from '@/components/NavBar.vue'
+// import Sidebar from '@/components/SideBar.vue'
 </script>
 
 <style lang="scss" scoped></style>
