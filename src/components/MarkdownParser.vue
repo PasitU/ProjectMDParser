@@ -51,7 +51,6 @@ function toggleMarkdown() {
       <h2 class="bg-base-200 p-2 text-xl">Preview</h2>
       <MarkdownPreview
         :content="parsedMarkdown"
-        class="p-5 preview min-w-full bg-base-300 h-screen prose-slate prose overflow-y-auto"
         :class="{ 'md:mx-auto md:min-w-[45rem]': !showMarkdown }"
       />
       <!-- <article
