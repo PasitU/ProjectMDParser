@@ -6,10 +6,7 @@
         class="fixed inset-y-0 left-0 z-30 w-64 transition-transform duration-300"
         :class="{ 'translate-x-0': isSidebarOpen, '-translate-x-full': !isSidebarOpen }"
       >
-        <slot name="sidebar-content">
-          <!-- Sidebar content -->
-          <!-- ... -->
-        </slot>
+        <slot name="sidebar-content"> </slot>
       </aside>
     </Transition>
 
@@ -17,18 +14,13 @@
       class="transition-transform duration-300"
       :class="{ 'translate-x-64': isSidebarOpen, 'translate-x-0': !isSidebarOpen }"
     >
-      <slot name="main-content">
-        <!-- Main content -->
-        <!-- ... -->
-      </slot>
+      <slot name="main-content"> </slot>
     </main>
   </div>
 </template>
 
 <script setup>
-defineProps({
-  isSidebarOpen: Boolean
-})
+defineProps(['isSidebarOpen'])
 </script>
 
 <style scoped>
