@@ -2,6 +2,8 @@
 import { parseToMarkdown, initialText } from '@/utils/parser'
 import { ref, onMounted, watch } from 'vue'
 import SwapIcon from './SwapIcon.vue'
+import MarkdownPreview from './MarkdownPreview.vue'
+
 const markdown = ref(initialText)
 
 const parsedMarkdown = ref('')
@@ -47,11 +49,16 @@ function toggleMarkdown() {
     </div>
     <div class="flex-col bg-base-300 md:flex" :class="{ hidden: showMarkdown }">
       <h2 class="bg-base-200 p-2 text-xl">Preview</h2>
-      <article
+      <MarkdownPreview
+        :content="parsedMarkdown"
+        class="p-5 preview min-w-full bg-base-300 h-screen prose-slate prose overflow-y-auto"
+        :class="{ 'md:mx-auto md:min-w-[45rem]': !showMarkdown }"
+      />
+      <!-- <article
         class="p-5 preview min-w-full bg-base-300 h-screen prose-slate prose overflow-y-auto"
         v-html="parsedMarkdown"
         :class="{ 'md:mx-auto md:min-w-[45rem]': !showMarkdown }"
-      ></article>
+      ></article> -->
     </div>
   </section>
 </template>
