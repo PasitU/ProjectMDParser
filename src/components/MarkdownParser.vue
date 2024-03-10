@@ -53,11 +53,6 @@ function toggleMarkdown() {
         :content="parsedMarkdown"
         :class="{ 'md:mx-auto md:min-w-[45rem]': !showMarkdown }"
       />
-      <!-- <article
-        class="p-5 preview min-w-full bg-base-300 h-screen prose-slate prose overflow-y-auto"
-        v-html="parsedMarkdown"
-        :class="{ 'md:mx-auto md:min-w-[45rem]': !showMarkdown }"
-      ></article> -->
     </div>
   </section>
 </template>
