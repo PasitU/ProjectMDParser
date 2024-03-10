@@ -59,10 +59,6 @@
       <MarkdownParser />
     </template>
   </Sidebar>
-
-  <div class="bg-primary" v-show="isSidebarOpen">
-    <h1>TEST</h1>
-  </div>
 </template>
 
 <script setup>
