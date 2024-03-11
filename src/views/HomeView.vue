@@ -54,7 +54,6 @@ import NavBar from '@/components/NavBar.vue'
 import SideBar from '@/components/SideBar.vue'
 import { onMounted, ref, watch } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
-// import { escapeSpecialCharacters } from '@/utils/escapeSpecialText'
 
 const isSidebarOpen = ref(false)
 
@@ -95,9 +94,9 @@ const saveDoc = async () => {
     }
     await updateDocument(updateDoc)
     const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
-    documents.value[index].title = title.value
-    documents.value[index].content = content.value
-    currentDocument.value = documents.value[index]
+    documents.value[index] = updateDoc
+    currentDocument.value = updateDoc
+    selectedDocument(currentDocument.value.id)
   } catch (error) {
     console.error(error)
   }
@@ -123,8 +122,7 @@ const newDoc = async () => {
 const deleteDoc = async () => {
   try {
     await deleteDocument(currentDocument.value.id)
-    documents.value = await getDocuments()
-    currentDocument.value = documents.value[0]
+    documents.value = documents.value.filter((doc) => doc.id !== currentDocument.value.id)
     selectedDocument(documents.value[0].id)
   } catch (error) {
     console.error(error)
