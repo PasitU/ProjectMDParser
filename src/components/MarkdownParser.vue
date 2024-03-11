@@ -1,5 +1,5 @@
 <script setup>
-import { parseToMarkdown, initialText } from '@/utils/parser'
+import { parseToMarkdown } from '@/utils/parser'
 import { ref, onMounted, watch } from 'vue'
 import SwapIcon from './SwapIcon.vue'
 import MarkdownPreview from './MarkdownPreview.vue'
@@ -43,13 +43,7 @@ function tab(event){
         <input
           type="text"
           v-model="title"
-          class="border-none bg-transparent text-lg"
-          @focus="
-            (e) => {
-              e.target.style.outline = 'none'
-            }
-          "
-         
+          class="border-none bg-transparent text-lg focus:outline-none focus:ring-0"
         />
         <hr />
       </div>
