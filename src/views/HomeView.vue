@@ -26,7 +26,7 @@
             </div>
           </template>
         </NavBar>
-        <MarkdownParser v-model="title" v-model:content="content"/>
+        <MarkdownParser v-model:title="title" v-model:content="content"/>
       </template>
     </SideBar>
   </div>
@@ -46,7 +46,6 @@ const content = ref('')
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
-  console.log(isSidebarOpen.value)
 }
 </script>
 
