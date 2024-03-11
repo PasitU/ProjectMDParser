@@ -12,6 +12,7 @@
               + New Document
             </button>
           </div>
+          <!-- documentList -->
           <div class="">
             <ul class="flex flex-col mt-4">
               <li v-for="doc in documents" :key="doc.id">
@@ -31,13 +32,16 @@
         <NavBar @toggle-sidebar="toggleSidebar">
           <template v-slot:nav-link>
             <div class="flex items-center gap-2">
-              <button @click="deleteDoc" class="btn btn-ghost hover:text-red-400">
+              <!-- deleteButton -->
+              <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
-              <button @click="saveDoc" class="btn hover:text-green-400">
-                <v-icon name="ri-save-3-line" />
+              <!-- saveButton -->
+              <button @click="confirmUpdate" class="btn hover:text-green-400">
+              <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
+              <!-- previewButton -->
               <button class="btn">Preview</button>
             </div>
           </template>
@@ -56,6 +60,7 @@ import { onMounted, ref, watch } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 
 const isSidebarOpen = ref(false)
+// const isDeleteModalOpen = ref(false)
 
 const currentDocument = ref(null)
 const documents = ref([])
@@ -126,6 +131,18 @@ const deleteDoc = async () => {
     selectedDocument(documents.value[0].id)
   } catch (error) {
     console.error(error)
+  }
+}
+
+const confirmUpdate = () => {
+  if(confirm(`Update ${currentDocument.value.title}?`)) {
+    saveDoc()
+  }
+}
+
+const confirmDelete = () => {
+  if (confirm(`Are you sure you want to delete "${currentDocument.value.title}" document?`)) {
+    deleteDoc()
   }
 }
 </script>
