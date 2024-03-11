@@ -4,7 +4,7 @@ import { ref, onMounted, watch } from 'vue'
 import SwapIcon from './SwapIcon.vue'
 import MarkdownPreview from './MarkdownPreview.vue'
 
-const title = defineModel()
+const title = defineModel('title')
 
 const markdown = defineModel('content')
 
