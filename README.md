@@ -8,8 +8,10 @@
 - Pasit Udompanich | 65130500048
 - Pattaradanai Srichon | 65130500057
 
-- [ ] loading
-- [ ] saving
+- [ ] Delete Modal
+- [ ] Day/Night Mode
+- [ ] Document Lists Style
+- [x] CRUD functional
 - [x] checkbox regex
 - [x] image regex no title
 - [x] textArea tabbing
