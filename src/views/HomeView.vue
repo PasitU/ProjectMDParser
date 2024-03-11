@@ -5,20 +5,28 @@
         <div>
           <div class="flex justify-center mt-4"><h1 class="text-2xl">My Document</h1></div>
           <div class="flex justify-center mt-4">
-            <button class="flex items-center bg-cyan-600 px-4 py-2 rounded-md text-white">
+            <button @click="newDoc" class="flex items-center bg-cyan-600 px-4 py-2 rounded-md text-white">
               + New Document
             </button>
           </div>
+          <ul class="flex flex-col mt-4">
+            <li v-for="doc in documents" :key="doc.id">
+              <button @click="selectedDocument(doc.id)" class="text-lg text-left p-3 hover:bg-slate-500 hover:text-black">
+                {{ doc.title }}
+                <br/><p class="text-sm">Create at : {{ doc.createAt }}</p>
+              </button>
+            </li>
+          </ul>
         </div>
       </template>
       <template v-slot:main-content>
         <NavBar @toggle-sidebar="toggleSidebar">
           <template v-slot:nav-link>
             <div class="flex items-center gap-2">
-              <button class="btn btn-ghost hover:text-red-400">
+              <button @click="deleteDoc" class="btn btn-ghost hover:text-red-400">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
-              <button class="btn hover:text-green-400">
+              <button @click="saveDoc" class="btn hover:text-green-400">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
@@ -26,7 +34,7 @@
             </div>
           </template>
         </NavBar>
-        <MarkdownParser v-model:title="title" v-model:content="content"/>
+        <MarkdownParser v-model:title="title" v-model:content="content" />
       </template>
     </SideBar>
   </div>
@@ -36,16 +44,84 @@
 import MarkdownParser from '@/components/MarkdownParser.vue'
 import NavBar from '@/components/NavBar.vue'
 import SideBar from '@/components/SideBar.vue'
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 
 const isSidebarOpen = ref(false)
 
-const title = ref('untitled')
-const content = ref('')
+const currentDocument = ref(null)
+const documents = ref([])
 
+const title = ref('')
+const content = ref('')
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
+}
+
+onMounted(async () => {
+  documents.value = await getDocuments()
+  currentDocument.value = documents.value[0]
+  selectedDocument(currentDocument.value.id)
+  console.log(documents.value);
+})
+
+watch(documents => {
+  documents.value = documents
+})
+
+const selectedDocument = (documentID) => {
+  const selectDocument = documents.value.find((doc) => doc.id === documentID)
+  currentDocument.value = selectDocument
+  title.value = selectDocument.title
+  content.value = selectDocument.content
+}
+
+const saveDoc = async () => {
+  try {
+    const updateDoc = {
+      id: currentDocument.value.id,
+      title: title.value,
+      content: content.value,
+      createAt: new Date().toISOString()
+    }
+    await updateDocument(updateDoc)
+    const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
+    documents.value[index].title = title.value
+    documents.value[index].content = content.value
+    currentDocument.value = documents.value[index]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const newDoc = async () => {
+  try {
+    const newDocument = {
+      id: String(Date.now()),
+      title: `untitled${documents.value.length + 1}.md`,
+      content: '# New Document\n\nStart writing here...',
+      createAt: new Date().toISOString()
+    }
+    await addDocument(newDocument)
+    documents.value.push(newDocument)
+    currentDocument.value = newDocument
+    selectedDocument(newDocument.id)
+  }
+  catch (error) {
+    console.error(error)
+  }
+}
+
+const deleteDoc = async () => {
+  try {
+    await deleteDocument(currentDocument.value.id)
+    documents.value = await getDocuments()
+    currentDocument.value = documents.value[0]
+    selectedDocument(documents.value[0].id)
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>
 

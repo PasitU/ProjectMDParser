@@ -1,15 +1,7 @@
-const BASE_URL = 'http://localhost:3000/api/documents'
+const BASE_URL = 'http://localhost:3001/documents'
 
 // Add a new document to the server --CREATE--
-export const addDocument = async () => {
-  try {
-    const newDocument = {
-      id: String(Date.now()),
-      title: 'Untitled.md',
-      content: '# New Document\n\nThis is a new document.',
-      createAt: new Date().toISOString()
-    }
-
+export const addDocument = async (newDocument) => {
     const response = fetch(BASE_URL, {
       method: 'POST',
       headers: {
@@ -23,10 +15,6 @@ export const addDocument = async () => {
     }
 
     return response.json()
-  } catch (error) {
-    console.error('Error adding document:', error.message)
-    throw error
-  }
 }
 
 // Get the list of documents from the server --READ--
