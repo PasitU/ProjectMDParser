@@ -8,6 +8,7 @@
             <button class="flex items-center bg-cyan-600 px-4 py-2 rounded-md text-white">
               + New Document
             </button>
+
           </div>
         </div>
       </template>
@@ -22,11 +23,12 @@
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
+              {{ title }}
               <button class="btn">Preview</button>
             </div>
           </template>
         </NavBar>
-        <MarkdownParser />
+        <MarkdownParser v-model="title" v-model:content="content"/>
       </template>
     </SideBar>
   </div>
@@ -40,10 +42,28 @@ import { ref } from 'vue'
 
 const isSidebarOpen = ref(false)
 
+const title = ref('untitled')
+const content = ref('')
+
+
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
   console.log(isSidebarOpen.value)
 }
+function loadMd(id){
+  let loadingSave = db.documents.find((doc) => doc.id === String(id))
+  if(loadingSave === undefined){
+    return;
+  }
+  else{
+    loadedId.value = loadingSave.id
+    loadedTitle.value = loadingSave.title
+    loadedContent.value = loadingSave.content
+    loadedCreateAt.value = loadingSave.createAt
+  }
+  upCount.value++;
+}
+
 </script>
 
 <style lang="scss" scoped></style>
