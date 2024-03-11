@@ -2,6 +2,7 @@ const BASE_URL = 'http://localhost:3001/documents'
 
 // Add a new document to the server --CREATE--
 export const addDocument = async (newDocument) => {
+  try {
     const response = fetch(BASE_URL, {
       method: 'POST',
       headers: {
@@ -9,12 +10,11 @@ export const addDocument = async (newDocument) => {
       },
       body: JSON.stringify(newDocument)
     })
-
-    if (!response.ok) {
-      throw new Error('Unable to add document')
-    }
-
-    return response.json()
+    const responseData = await response.json()
+    return responseData
+  } catch (error) {
+    console.log()
+  }
 }
 
 // Get the list of documents from the server --READ--

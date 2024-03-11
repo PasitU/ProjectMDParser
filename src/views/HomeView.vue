@@ -5,18 +5,26 @@
         <div>
           <div class="flex justify-center mt-4"><h1 class="text-2xl">My Document</h1></div>
           <div class="flex justify-center mt-4">
-            <button @click="newDoc" class="flex items-center bg-cyan-600 px-4 py-2 rounded-md text-white">
+            <button
+              @click="newDoc"
+              class="flex items-center bg-cyan-600 px-4 py-2 rounded-md text-white"
+            >
               + New Document
             </button>
           </div>
-          <ul class="flex flex-col mt-4">
-            <li v-for="doc in documents" :key="doc.id">
-              <button @click="selectedDocument(doc.id)" class="text-lg text-left p-3 hover:bg-slate-500 hover:text-black">
-                {{ doc.title }}
-                <br/><p class="text-sm">Create at : {{ doc.createAt }}</p>
-              </button>
-            </li>
-          </ul>
+          <div class="">
+            <ul class="flex flex-col mt-4">
+              <li v-for="doc in documents" :key="doc.id">
+                <button
+                  @click="selectedDocument(doc.id)"
+                  class="text-lg text-left br-5 p-4 px-[10%] hover:bg-slate-500 hover:text-black"
+                >
+                  {{ doc.title }}
+                  <p class="text-sm">{{ doc.createAt }}</p>
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </template>
       <template v-slot:main-content>
@@ -46,6 +54,7 @@ import NavBar from '@/components/NavBar.vue'
 import SideBar from '@/components/SideBar.vue'
 import { onMounted, ref, watch } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
+// import { escapeSpecialCharacters } from '@/utils/escapeSpecialText'
 
 const isSidebarOpen = ref(false)
 
@@ -63,10 +72,9 @@ onMounted(async () => {
   documents.value = await getDocuments()
   currentDocument.value = documents.value[0]
   selectedDocument(currentDocument.value.id)
-  console.log(documents.value);
 })
 
-watch(documents => {
+watch((documents) => {
   documents.value = documents
 })
 
@@ -107,8 +115,7 @@ const newDoc = async () => {
     documents.value.push(newDocument)
     currentDocument.value = newDocument
     selectedDocument(newDocument.id)
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
   }
 }
