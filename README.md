@@ -13,3 +13,4 @@
 - [x] checkbox regex
 - [x] image regex no title
 - [x] textArea tabbing
+- [x] Preview Routing Prototype
