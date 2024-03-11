@@ -20,6 +20,10 @@ TEST
 */
 
 const rules = [
+  //check box
+  [/-\s\[\s\]\s([^\n]+)/g, '<input type=checkbox disabled> $1<br>'],
+  [/-\s\[x\]\s([^\n]+)/g, '<input type=checkbox checked disabled> $1<br>'],
+
   // Lists
   [/^\s*(\*|\+|-)\s+(.+)$/gm, '<li>$2</li>'],
 
@@ -47,8 +51,8 @@ const rules = [
     '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$2</span>'
   ],
 
-  // // Image
-  // [/!\[([^\]]+)\]\(([^)]+)\s"([^")]+)"\)/g, '<img src="$2" alt="$1" title="$3" />'],
+  // Image
+  [/!\[([^\]]+)\]\(([^)]+)(\s"([^")]+)")?\)/g, '<img src="$2" alt="$1" title="$3" />'],
 
   // Horizontal
   [/-{3,}/g, '<hr>'],

@@ -4,7 +4,9 @@ import { ref, onMounted, watch } from 'vue'
 import SwapIcon from './SwapIcon.vue'
 import MarkdownPreview from './MarkdownPreview.vue'
 
-const markdown = ref(initialText)
+const title = defineModel()
+
+const markdown = defineModel('content')
 
 const parsedMarkdown = ref('')
 
@@ -21,11 +23,36 @@ function parseMarkdown() {
 function toggleMarkdown() {
   showMarkdown.value = !showMarkdown.value
 }
+
+function tab(event){
+  if(event.key === 'Tab'){
+    event.preventDefault()
+    let start = event.target.selectionStart
+    let end = event.target.selectionEnd
+    event.target.value = event.target.value.slice(0,start) + '\t' + event.target.value.slice(end)
+    event.target.selectionEnd = start + 1
+  }
+}
 </script>
 
 <template>
   <section>
-    <div class="bg-base-300 flex justify-end px-2">
+    <div class="bg-base-300 flex justify-between px-2">
+      <div>
+        <h3>Document:</h3>
+        <input
+          type="text"
+          v-model="title"
+          class="border-none bg-transparent text-lg"
+          @focus="
+            (e) => {
+              e.target.style.outline = 'none'
+            }
+          "
+         
+        />
+        <hr />
+      </div>
       <SwapIcon :swap="showMarkdown" @toggle="toggleMarkdown">
         <template #swap-off>
           <v-icon name="bi-eye-fill" />
@@ -44,7 +71,7 @@ function toggleMarkdown() {
       <h2 class="bg-base-200 p-2 text-xl">Markdown</h2>
       <textarea
         class="bg-base-300 preview leading-relaxed border-none resize-none outline-none break-words overflow-y-scroll p-4"
-        v-model="markdown"
+        v-model="markdown" @keydown="tab"
       />
     </div>
     <div class="flex-col bg-base-300 md:flex" :class="{ hidden: showMarkdown }">
