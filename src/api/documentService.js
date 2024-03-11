@@ -30,9 +30,10 @@ export const addDocument = async () => {
 }
 
 // Get the list of documents from the server --READ--
-export const getDocuments = async () => {
+export const getDocuments = async (id) => {
+  const baseURL = id ? `${BASE_URL}/${id}` : BASE_URL
   try {
-    const response = await fetch(BASE_URL)
+    const response = await fetch(baseURL)
 
     if (!response.ok) {
       throw new Error('Unable to retrieve documents')

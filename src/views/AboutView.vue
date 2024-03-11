@@ -1,15 +1,19 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div>
+    <MarkdownPreview :content="parsedMarkdown" :class="'md:mx-auto md:min-w-[45rem]'" />
   </div>
 </template>
 
+<script setup>
+import MarkdownPreview from '@/components/MarkdownPreview.vue'
+import { parseToMarkdown, initialText } from '@/utils/parser'
+import { ref, computed } from 'vue'
+
+
+const markdown = ref(initialText)
+const parsedMarkdown = computed(() => parseToMarkdown(markdown.value))
+
+
+</script>
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
 </style>

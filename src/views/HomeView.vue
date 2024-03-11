@@ -26,7 +26,7 @@
             </div>
           </template>
         </NavBar>
-        <MarkdownParser />
+        <MarkdownParser v-model="title" v-model:content="content"/>
       </template>
     </SideBar>
   </div>
@@ -39,6 +39,10 @@ import SideBar from '@/components/SideBar.vue'
 import { ref } from 'vue'
 
 const isSidebarOpen = ref(false)
+
+const title = ref('untitled')
+const content = ref('')
+
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
