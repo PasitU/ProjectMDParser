@@ -1,5 +1,5 @@
 <template>
-  <div data-theme="dark" class="overflow-hidden h-screen">
+  <div :data-theme="theme" class="overflow-hidden h-screen">
     <SideBar :is-sidebar-open="isSidebarOpen">
       <template v-slot:sidebar-content>
         <div>
@@ -14,20 +14,21 @@
           </div>
           <!-- documentList -->
           <div>
-            <ul class="flex flex-col mt-4">
-              <li v-for="doc in documents" :key="doc.id">
-                <button
-                  @click="selectedDocument(doc.id)"
-                  class="flex flex-col group w-full text-lg text-left br-5 p-4 hover:bg-base-300 transition-colors duration-300 ease-in-out"
-                  :class="{
-                    'bg-base-200 text-info  hover:text-info': doc.id === currentDocument.id
-                  }"
-                >
-                  <p class="group-hover:text-info" v-text="doc.title"></p>
-                  <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
-                </button>
-              </li>
-            </ul>
+              <ul class="flex flex-col mt-4">
+                <li v-for="doc in documents" :key="doc.id">
+                  <button
+                    @click="selectedDocument(doc.id)"
+                    class="flex flex-col group w-full text-lg text-left br-5 p-4 hover:bg-base-300 transition-colors duration-300 ease-linear"
+                    :class="{
+                      'bg-base-200 text-info  hover:text-info': doc.id === currentDocument.id
+                    }"
+                  >
+                    <p class="group-hover:text-info" v-text="doc.title"></p>
+                    <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
+                  </button>
+                </li>
+              </ul>
+            <button @click="switchTheme" class="felx w-full p-4 bg-base-200 hover:bg-base-300 transition-all duration-300 ease-linear">MockUp Theme Switch</button>
           </div>
         </div>
       </template>
@@ -88,6 +89,7 @@ import DropDown from '@/components/DropDown.vue'
 
 const isSidebarOpen = ref(false)
 // const isDeleteModalOpen = ref(false)
+const theme = ref('dark')
 
 const currentDocument = ref(null)
 const documents = ref([])
@@ -108,6 +110,10 @@ onMounted(async () => {
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString()
+}
+
+const switchTheme = () => {
+  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
 }
 
 computed(() => documents.value)
