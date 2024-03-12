@@ -10,7 +10,7 @@
         </template>
       </SwapIcon>
       <router-link to="/">
-        <h1 class="text-2xl font-bold pl-5 hover:scale-110 transition-all duration-300">
+        <h1 class="text-2xl font-bold pl-5 hover:scale-110 hover:text-info transition-all duration-300">
           Markable
         </h1>
       </router-link>

@@ -51,7 +51,7 @@ function handleBlur() {
           type="text"
           v-model="title"
           placeholder="Document Name"
-          class="bg-transparent text-lg focus:outline-none focus:ring-0 focus:text-cyan-500 focus:border-cyan-500 hover:text-cyan-600 transition-all duration-200 ease-in-out"
+          class="bg-transparent text-lg focus:outline-none focus:ring-0 focus:text-info hover:text-info transition-all duration-200 ease-in-out"
           @blur="handleBlur"
         />
       </div>

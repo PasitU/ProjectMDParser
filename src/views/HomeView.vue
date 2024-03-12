@@ -13,18 +13,18 @@
             </button>
           </div>
           <!-- documentList -->
-          <div class="">
+          <div>
             <ul class="flex flex-col mt-4">
               <li v-for="doc in documents" :key="doc.id">
                 <button
                   @click="selectedDocument(doc.id)"
-                  class="text-lg text-left br-5 p-4 px-[10%] hover:bg-base-300 transition-colors duration-300 ease-in-out"
+                  class="flex flex-col group w-full text-lg text-left br-5 p-4 hover:bg-base-300 transition-colors duration-300 ease-in-out"
                   :class="{
-                    'bg-base-200 text-cyan-500 hover:text-cyan-500': doc.id === currentDocument.id
+                    'bg-base-200 text-info  hover:text-info': doc.id === currentDocument.id
                   }"
                 >
-                  {{ doc.title }}
-                  <p class="text-sm">{{ doc.createAt }}</p>
+                  <p class="group-hover:text-info" v-text="doc.title"></p>
+                  <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
                 </button>
               </li>
             </ul>
@@ -35,17 +35,14 @@
         <NavBar @toggle-sidebar="toggleSidebar">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
-              <!-- deleteButton -->
               <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
-              <!-- saveButton -->
               <button @click="confirmUpdate" class="btn hover:text-green-400">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
-              <!-- previewButton -->
-              <button class="btn">
+              <button class="btn hover:text-info">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
               </button>
@@ -55,23 +52,27 @@
                 <v-icon name="co-list" />
               </template>
               <template v-slot:dropdown-content>
-                <button @click="confirmDelete" class="btn hover:text-red-400 flex-start gap-3">
+                <button @click="confirmDelete" class="btn hover:text-error flex-start gap-3">
                   <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
                   <h2>Delete</h2>
                 </button>
-                <button @click="confirmUpdate" class="btn hover:text-green-400 flex-start gap-3">
+                <button @click="confirmUpdate" class="btn hover:text-success flex-start gap-3">
                   <v-icon name="ri-save-3-line" />
                   <h2>Save Changes</h2>
                 </button>
-                <button class="btn flex-start gap-3">
-                  <v-icon name="co-list" />
+                <button class="btn flex-start gap-3 hover:text-info">
+                  <v-icon name="bi-eye-fill" />
                   <h1>Preview</h1>
                 </button>
               </template>
             </DropDown>
           </template>
         </NavBar>
-        <MarkdownParser v-model:title="title" v-model:content="content" :original-title="originalTitle"/>
+        <MarkdownParser
+          v-model:title="title"
+          v-model:content="content"
+          :original-title="originalTitle"
+        />
       </template>
     </SideBar>
   </div>
@@ -105,6 +106,10 @@ onMounted(async () => {
   selectedDocument(currentDocument.value.id)
 })
 
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString()
+}
+
 computed(() => documents.value)
 
 const selectedDocument = (documentID) => {
@@ -112,6 +117,7 @@ const selectedDocument = (documentID) => {
   currentDocument.value = selectDocument
   title.value = selectDocument.title
   content.value = selectDocument.content
+  isSidebarOpen.value = false
 }
 
 const saveDoc = async () => {
