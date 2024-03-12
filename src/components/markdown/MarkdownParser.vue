@@ -1,7 +1,7 @@
 <script setup>
 import { parseToMarkdown } from '@/utils/parser'
 import { ref, onMounted, watch } from 'vue'
-import SwapIcon from './SwapIcon.vue'
+import SwapIcon from '@/components/nav/SwapIcon.vue'
 import MarkdownPreview from './MarkdownPreview.vue'
 
 const title = defineModel('title')
@@ -85,4 +85,4 @@ function tab(event) {
 .preview {
   height: calc(100vh - 10rem);
 }
-</style>
+</style>./nav/SwapIcon.vue

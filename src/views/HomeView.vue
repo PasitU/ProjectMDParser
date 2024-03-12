@@ -19,7 +19,9 @@
                 <button
                   @click="selectedDocument(doc.id)"
                   class="text-lg text-left br-5 p-4 px-[10%] hover:bg-base-300 transition-colors duration-300 ease-in-out"
-                  :class="{'bg-base-200 text-cyan-500 hover:text-cyan-500': doc.id === currentDocument.id}"
+                  :class="{
+                    'bg-base-200 text-cyan-500 hover:text-cyan-500': doc.id === currentDocument.id
+                  }"
                 >
                   {{ doc.title }}
                   <p class="text-sm">{{ doc.createAt }}</p>
@@ -32,19 +34,41 @@
       <template v-slot:main-content>
         <NavBar @toggle-sidebar="toggleSidebar">
           <template v-slot:nav-link>
-            <div class="flex items-center gap-2">
+            <div class="md:flex items-center gap-2 hidden">
               <!-- deleteButton -->
               <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
               <!-- saveButton -->
               <button @click="confirmUpdate" class="btn hover:text-green-400">
-              <v-icon name="ri-save-3-line" />
+                <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
               <!-- previewButton -->
-              <button class="btn">Preview</button>
+              <button class="btn">
+                <v-icon name="co-list" />
+                <h1 class="hidden md:block">Preview</h1>
+              </button>
             </div>
+            <DropDown>
+              <template v-slot:dropdown-trigger>
+                <v-icon name="co-list" />
+              </template>
+              <template v-slot:dropdown-content>
+                <button @click="confirmDelete" class="btn hover:text-red-400 flex-start gap-3">
+                  <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
+                  <h2>Delete</h2>
+                </button>
+                <button @click="confirmUpdate" class="btn hover:text-green-400 flex-start gap-3">
+                  <v-icon name="ri-save-3-line" />
+                  <h2>Save Changes</h2>
+                </button>
+                <button class="btn flex-start gap-3">
+                  <v-icon name="co-list" />
+                  <h1>Preview</h1>
+                </button>
+              </template>
+            </DropDown>
           </template>
         </NavBar>
         <MarkdownParser v-model:title="title" v-model:content="content" />
@@ -54,11 +78,12 @@
 </template>
 
 <script setup>
-import MarkdownParser from '@/components/MarkdownParser.vue'
-import NavBar from '@/components/NavBar.vue'
-import SideBar from '@/components/SideBar.vue'
+import MarkdownParser from '@/components/markdown/MarkdownParser.vue'
+import NavBar from '@/components/nav/NavBar.vue'
+import SideBar from '@/components/nav/SideBar.vue'
 import { onMounted, ref, computed } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
+import DropDown from '@/components/DropDown.vue'
 
 const isSidebarOpen = ref(false)
 // const isDeleteModalOpen = ref(false)
@@ -79,9 +104,7 @@ onMounted(async () => {
   selectedDocument(currentDocument.value.id)
 })
 
-computed(() => 
-  documents.value
-)
+computed(() => documents.value)
 
 const selectedDocument = (documentID) => {
   const selectDocument = documents.value.find((doc) => doc.id === documentID)
@@ -137,7 +160,7 @@ const deleteDoc = async () => {
 }
 
 const confirmUpdate = () => {
-  if(confirm(`Update ${currentDocument.value.title}?`)) {
+  if (confirm(`Update ${currentDocument.value.title}?`)) {
     saveDoc()
   }
 }
