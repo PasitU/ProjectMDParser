@@ -1,5 +1,5 @@
 <template>
-  <div data-theme="dark" class="overflow-y-hidden h-screen">
+  <div data-theme="dark" class="overflow-hidden h-screen">
     <SideBar :is-sidebar-open="isSidebarOpen">
       <template v-slot:sidebar-content>
         <div>
