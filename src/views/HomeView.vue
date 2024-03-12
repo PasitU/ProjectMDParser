@@ -18,7 +18,8 @@
               <li v-for="doc in documents" :key="doc.id">
                 <button
                   @click="selectedDocument(doc.id)"
-                  class="text-lg text-left br-5 p-4 px-[10%] hover:bg-slate-500 hover:text-black"
+                  class="text-lg text-left br-5 p-4 px-[10%] hover:bg-base-300 transition-colors duration-300 ease-in-out"
+                  :class="{'bg-base-200 text-cyan-500 hover:text-cyan-500': doc.id === currentDocument.id}"
                 >
                   {{ doc.title }}
                   <p class="text-sm">{{ doc.createAt }}</p>
@@ -56,7 +57,7 @@
 import MarkdownParser from '@/components/MarkdownParser.vue'
 import NavBar from '@/components/NavBar.vue'
 import SideBar from '@/components/SideBar.vue'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 
 const isSidebarOpen = ref(false)
@@ -78,9 +79,9 @@ onMounted(async () => {
   selectedDocument(currentDocument.value.id)
 })
 
-watch((documents) => {
-  documents.value = documents
-})
+computed(() => 
+  documents.value
+)
 
 const selectedDocument = (documentID) => {
   const selectDocument = documents.value.find((doc) => doc.id === documentID)
@@ -127,8 +128,9 @@ const newDoc = async () => {
 const deleteDoc = async () => {
   try {
     await deleteDocument(currentDocument.value.id)
+    const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
     documents.value = documents.value.filter((doc) => doc.id !== currentDocument.value.id)
-    selectedDocument(documents.value[0].id)
+    selectedDocument(documents.value[index - 1]?.id)
   } catch (error) {
     console.error(error)
   }
