@@ -71,7 +71,7 @@
             </DropDown>
           </template>
         </NavBar>
-        <MarkdownParser v-model:title="title" v-model:content="content" />
+        <MarkdownParser v-model:title="title" v-model:content="content" :original-title="originalTitle"/>
       </template>
     </SideBar>
   </div>
@@ -92,6 +92,7 @@ const currentDocument = ref(null)
 const documents = ref([])
 
 const title = ref('')
+const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
 
 function toggleSidebar() {

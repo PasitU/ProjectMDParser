@@ -4,6 +4,8 @@ import { ref, onMounted, watch } from 'vue'
 import SwapIcon from '@/components/nav/SwapIcon.vue'
 import MarkdownPreview from './MarkdownPreview.vue'
 
+const props = defineProps(['originalTitle'])
+
 const title = defineModel('title')
 
 const markdown = defineModel('content')
@@ -33,17 +35,24 @@ function tab(event) {
     event.target.selectionEnd = start + 1
   }
 }
+
+function handleBlur() {
+  if (title.value === '') {
+    title.value = props.originalTitle
+  }
+}
 </script>
 
 <template>
   <section>
     <div class="bg-base-300 flex justify-between px-2">
-      <div>
-        <h3>Document:</h3>
+      <div class="flex items-center">
         <input
           type="text"
           v-model="title"
-          class="border-b bg-transparent text-lg focus:outline-none focus:ring-0 focus:text-cyan-500 focus:border-cyan-500 hover:text-cyan-600 transition-all duration-200 ease-in-out"
+          placeholder="Document Name"
+          class="bg-transparent text-lg focus:outline-none focus:ring-0 focus:text-cyan-500 focus:border-cyan-500 hover:text-cyan-600 transition-all duration-200 ease-in-out"
+          @blur="handleBlur"
         />
       </div>
       <SwapIcon :swap="showMarkdown" @toggle="toggleMarkdown">
@@ -85,4 +94,4 @@ function tab(event) {
 .preview {
   height: calc(100vh - 10rem);
 }
-</style>./nav/SwapIcon.vue
+</style>
