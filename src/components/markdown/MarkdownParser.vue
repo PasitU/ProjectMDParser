@@ -55,7 +55,7 @@ function handleBlur() {
           @blur="handleBlur"
         />
       </div>
-      <SwapIcon :swap="showMarkdown" @toggle="toggleMarkdown">
+      <SwapIcon @toggle="toggleMarkdown">
         <template #swap-off>
           <v-icon name="bi-eye-fill" />
         </template>
