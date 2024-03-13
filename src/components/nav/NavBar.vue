@@ -1,7 +1,7 @@
 <template>
   <nav class="flex justify-between">
     <div class="flex items-center p-2">
-      <SwapIcon :swap="true" @toggle="$emit('toggle-sidebar')">
+      <SwapIcon :swap="true" :is-checked="isSidebarOpen" @toggle="$emit('toggle-sidebar')">
         <template #swap-off>
           <IconHamburger />
         </template>
@@ -28,6 +28,8 @@ import IconHamburger from '../icons/IconHamburger.vue'
 import IconClose from '../icons/IconClose.vue'
 
 defineEmits(['toggle-sidebar'])
+defineProps(['isSidebarOpen'])
+
 </script>
 
 <style lang="scss" scoped></style>

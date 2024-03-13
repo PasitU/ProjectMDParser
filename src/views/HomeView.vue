@@ -33,7 +33,7 @@
         </div>
       </template>
       <template v-slot:main-content>
-        <NavBar @toggle-sidebar="toggleSidebar">
+        <NavBar @toggle-sidebar="toggleSidebar" :is-sidebar-open="isSidebarOpen">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
               <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
