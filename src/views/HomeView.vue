@@ -14,21 +14,26 @@
           </div>
           <!-- documentList -->
           <div>
-              <ul class="flex flex-col mt-4">
-                <li v-for="doc in documents" :key="doc.id">
-                  <button
-                    @click="selectedDocument(doc.id)"
-                    class="flex flex-col group w-full text-lg text-left br-5 p-4 hover:bg-base-300 transition-colors duration-300 ease-linear"
-                    :class="{
-                      'bg-base-200 text-info  hover:text-info': doc.id === currentDocument.id
-                    }"
-                  >
-                    <p class="group-hover:text-info" v-text="doc.title"></p>
-                    <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
-                  </button>
-                </li>
-              </ul>
-            <button @click="switchTheme" class="felx w-full p-4 bg-base-200 hover:bg-base-300 transition-all duration-300 ease-linear">MockUp Theme Switch</button>
+            <ul class="flex flex-col mt-4">
+              <li v-for="doc in documents" :key="doc.id">
+                <button
+                  @click="selectedDocument(doc.id)"
+                  class="flex flex-col group w-full text-lg text-left br-5 p-4 hover:bg-base-300 transition-colors duration-300 ease-linear"
+                  :class="{
+                    'bg-base-200 text-info  hover:text-info': doc.id === currentDocument.id
+                  }"
+                >
+                  <p class="group-hover:text-info" v-text="doc.title"></p>
+                  <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
+                </button>
+              </li>
+            </ul>
+            <button
+              @click="switchTheme"
+              class="felx w-full p-4 bg-base-200 hover:bg-base-300 transition-all duration-300 ease-linear"
+            >
+              MockUp Theme Switch
+            </button>
           </div>
         </div>
       </template>
@@ -36,9 +41,26 @@
         <NavBar @toggle-sidebar="toggleSidebar" :is-sidebar-open="isSidebarOpen">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
-              <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
+              <button @click="showDeleteModal = true" class="btn btn-ghost hover:text-red-400">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
+              <Teleport to="#addModal">
+                <div
+                  v-show="showDeleteModal"
+                  class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
+                >
+                  <h3>Kuy!!</h3>
+                  <!-- <DeleteModal
+                    @closeModal="closeDeleteModal"
+                    :deleteDoc="deleteDoc"
+                    :current-document="currentDocument"
+                  /> -->
+                </div>
+              </Teleport>
+
+              <!-- <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
+                <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
+              </button> -->
               <button @click="confirmUpdate" class="btn hover:text-green-400">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
@@ -86,9 +108,10 @@ import SideBar from '@/components/nav/SideBar.vue'
 import { onMounted, ref, computed } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
+import DeleteModal from '@/components/Modal/DeleteModal.vue'
 
 const isSidebarOpen = ref(false)
-// const isDeleteModalOpen = ref(false)
+//const isDeleteModalOpen = ref(false)
 const theme = ref('dark')
 
 const currentDocument = ref(null)
@@ -97,6 +120,11 @@ const documents = ref([])
 const title = ref('')
 const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
+
+const showDeleteModal = ref(false)
+const closeDeleteModal = (flagModal) => {
+  showDeleteModal.value = flagModal
+}
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -179,7 +207,7 @@ const confirmUpdate = () => {
 }
 
 const confirmDelete = () => {
-  if (confirm(`Are you sure you want to delete "${currentDocument.value.title}" document?`)) {
+  if (confirm(`Are you sure to delete ${currentDocument.value.title} document?`)) {
     deleteDoc()
   }
 }
