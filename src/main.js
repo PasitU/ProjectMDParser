@@ -7,11 +7,12 @@ import {
   RiSave3Line,
   BiEyeFill,
   RiDeleteBin5Fill,
-  BiEyeSlashFill
+  BiEyeSlashFill,
+  CoList,
 } from 'oh-vue-icons/icons'
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
 
-addIcons(CoHamburgerMenu, RiDeleteBin5Fill, RiSave3Line, BiEyeFill, BiEyeSlashFill)
+addIcons(CoHamburgerMenu, RiDeleteBin5Fill, RiSave3Line, BiEyeFill, BiEyeSlashFill, CoList)
 const app = createApp(App)
 app.component('v-icon', OhVueIcon)
 app.use(router)

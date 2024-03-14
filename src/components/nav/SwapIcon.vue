@@ -1,7 +1,7 @@
 <template>
   <label class="btn btn-ghost btn-square swap" :class="swap ? 'swap-rotate' : ''">
     <!-- this hidden checkbox controls the state -->
-    <input type="checkbox" @click="$emit('toggle')" />
+    <input type="checkbox" :checked="isChecked" @click="$emit('toggle')" />
 
     <!-- hamburger icon -->
     <div class="swap-off">
@@ -19,6 +19,10 @@
 defineEmits(['toggle'])
 defineProps({
   swap: {
+    type: Boolean,
+    default: false
+  },
+  isChecked: {
     type: Boolean,
     default: false
   }
