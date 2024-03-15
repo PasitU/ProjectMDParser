@@ -19,6 +19,6 @@ const { deleteDoc, currentDoc } = props
 
 const deleteDocLikeNow = () => {
   deleteDoc()
-  $emit('closeModal', false)
+  // $emit('closeModal', false)
 }
 </script>
