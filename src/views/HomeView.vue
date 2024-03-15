@@ -49,12 +49,11 @@
                   v-show="showDeleteModal"
                   class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
                 >
-                  <h3>Kuy!!</h3>
-                  <!-- <DeleteModal
+                  <DeleteModal
                     @closeModal="closeDeleteModal"
                     :deleteDoc="deleteDoc"
-                    :current-document="currentDocument"
-                  /> -->
+                    :currentDoc="title"
+                  />
                 </div>
               </Teleport>
 
