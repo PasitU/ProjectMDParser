@@ -41,30 +41,16 @@
         <NavBar @toggle-sidebar="toggleSidebar" :is-sidebar-open="isSidebarOpen">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
-              <button @click="showDeleteModal = true" class="btn btn-ghost hover:text-red-400">
-                <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
-              </button>
-              <Teleport to="#addModal">
-                <div
-                  v-show="showDeleteModal"
-                  class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
-                >
-                  <h3>Kuy!!</h3>
-                  <!-- <DeleteModal
-                    @closeModal="closeDeleteModal"
-                    :deleteDoc="deleteDoc"
-                    :current-document="currentDocument"
-                  /> -->
-                </div>
-              </Teleport>
+              <DeleteModal :deleteDoc="deleteDoc" />
 
+              <SaveModal :saveDoc="saveDoc" />
               <!-- <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
-              </button> -->
+              </button>
               <button @click="confirmUpdate" class="btn hover:text-green-400">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
-              </button>
+              </button> -->
               <button class="btn hover:text-info">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
@@ -109,6 +95,7 @@ import { onMounted, ref, computed } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import DeleteModal from '@/components/Modal/DeleteModal.vue'
+import SaveModal from '@/components/Modal/SaveModal.vue'
 
 const isSidebarOpen = ref(false)
 //const isDeleteModalOpen = ref(false)
@@ -121,10 +108,10 @@ const title = ref('')
 const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
 
-const showDeleteModal = ref(false)
-const closeDeleteModal = (flagModal) => {
-  showDeleteModal.value = flagModal
-}
+// const showDeleteModal = ref(false)
+// const closeDeleteModal = (flagModal) => {
+//   showDeleteModal.value = flagModal
+// }
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
