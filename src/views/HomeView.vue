@@ -46,30 +46,30 @@
               </button>
               <Teleport to="#addModal">
                 <div
-                  v-show="showDeleteModal"
-                  class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
+                  v-if="showDeleteModal"
+                  class="absolute left-0 right-0 top-[40%] m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
                 >
                   <DeleteModal
-                    @closeModal="closeDeleteModal"
+                    @close-modal="closeDeleteModal"
                     :deleteDoc="deleteDoc"
-                    :currentDoc="title"
+                    :current-title="currentDocument.title"
                   />
                 </div>
               </Teleport>
-
-              <!-- <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
-                <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
-              </button> -->
               <button @click="showSaveModal = true" class="btn hover:text-green-400">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
               <Teleport to="#addModal">
                 <div
-                  v-show="showSaveModal"
+                  v-if="showSaveModal"
                   class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
                 >
-                  <SaveModal @closeModal="closeSaveModal" :saveDoc="saveDoc" :currentDoc="title" />
+                  <SaveModal
+                    @closeModal="closeSaveModal"
+                    :saveDoc="saveDoc"
+                    :current-title="currentDocument.title"
+                  />
                 </div>
               </Teleport>
               <button class="btn hover:text-info">
@@ -109,6 +109,7 @@
 </template>
 
 <script setup>
+//--------------------- IMPORT SECTION ---------------------
 import MarkdownParser from '@/components/markdown/MarkdownParser.vue'
 import NavBar from '@/components/nav/NavBar.vue'
 import SideBar from '@/components/nav/SideBar.vue'
@@ -118,22 +119,16 @@ import DropDown from '@/components/DropDown.vue'
 import DeleteModal from '@/components/Modal/DeleteModal.vue'
 import SaveModal from '@/components/Modal/SaveModal.vue'
 
+// --------------------- PAGE CONTROLLER SECTION ---------------------
 const isSidebarOpen = ref(false)
-//const isDeleteModalOpen = ref(false)
 const theme = ref('dark')
-
-const currentDocument = ref(null)
-const documents = ref([])
-
-const title = ref('')
-const originalTitle = computed(() => currentDocument.value?.title)
-const content = ref('')
-
 const showDeleteModal = ref(false)
 const showSaveModal = ref(false)
-const closeDeleteModal = (flagModal) => {
+
+function closeDeleteModal(flagModal) {
   showDeleteModal.value = flagModal
 }
+
 const closeSaveModal = (flagModal) => {
   showSaveModal.value = flagModal
 }
@@ -142,6 +137,18 @@ function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
 }
 
+const switchTheme = () => {
+  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
+}
+// --------------------- DATA STORING SECTION ---------------------
+const currentDocument = ref(null)
+const documents = ref([])
+
+const title = ref('')
+const originalTitle = computed(() => currentDocument.value?.title)
+const content = ref('')
+
+// --------------------- FUNCTION SECTION ---------------------
 onMounted(async () => {
   documents.value = await getDocuments()
   currentDocument.value = documents.value[0]
@@ -150,10 +157,6 @@ onMounted(async () => {
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString()
-}
-
-const switchTheme = () => {
-  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
 }
 
 computed(() => documents.value)
@@ -166,6 +169,8 @@ const selectedDocument = (documentID) => {
   isSidebarOpen.value = false
 }
 
+// --------------------- API SECTION ---------------------
+// SAVE DOCUMENT
 const saveDoc = async () => {
   try {
     const updateDoc = {
@@ -183,7 +188,7 @@ const saveDoc = async () => {
     console.error(error)
   }
 }
-
+// CREAtE NEW DOCUMENT
 const newDoc = async () => {
   try {
     const newDocument = {
@@ -200,7 +205,7 @@ const newDoc = async () => {
     console.error(error)
   }
 }
-
+// DELETE DOCUMENT
 const deleteDoc = async () => {
   try {
     await deleteDocument(currentDocument.value.id)
@@ -209,18 +214,6 @@ const deleteDoc = async () => {
     selectedDocument(documents.value[index - 1]?.id)
   } catch (error) {
     console.error(error)
-  }
-}
-
-const confirmUpdate = () => {
-  if (confirm(`Update ${currentDocument.value.title}?`)) {
-    saveDoc()
-  }
-}
-
-const confirmDelete = () => {
-  if (confirm(`Are you sure to delete ${currentDocument.value.title} document?`)) {
-    deleteDoc()
   }
 }
 </script>
