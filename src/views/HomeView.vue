@@ -47,7 +47,7 @@
               <Teleport to="#addModal">
                 <div
                   v-if="showDeleteModal"
-                  class="absolute left-0 right-0 top-[40%] m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
+                  class="absolute left-0 right-0 top-[40%] m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto z-[9999]"
                 >
                   <DeleteModal
                     @close-modal="closeDeleteModal"
@@ -63,7 +63,7 @@
               <Teleport to="#addModal">
                 <div
                   v-if="showSaveModal"
-                  class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
+                  class="absolute left-0 right-0 top-[40%] m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto z-[9999]"
                 >
                   <SaveModal
                     @closeModal="closeSaveModal"
@@ -82,11 +82,11 @@
                 <v-icon name="co-list" />
               </template>
               <template v-slot:dropdown-content>
-                <button @click="confirmDelete" class="btn hover:text-error flex-start gap-3">
+                <button @click="showDeleteModal = true" class="btn hover:text-error flex-start gap-3">
                   <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
                   <h2>Delete</h2>
                 </button>
-                <button @click="confirmUpdate" class="btn hover:text-success flex-start gap-3">
+                <button @click="showSaveModal = true" class="btn hover:text-success flex-start gap-3">
                   <v-icon name="ri-save-3-line" />
                   <h2>Save Changes</h2>
                 </button>
