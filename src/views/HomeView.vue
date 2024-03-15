@@ -60,10 +60,18 @@
               <!-- <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button> -->
-              <button @click="confirmUpdate" class="btn hover:text-green-400">
+              <button @click="showSaveModal = true" class="btn hover:text-green-400">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
+              <Teleport to="#addModal">
+                <div
+                  v-show="showSaveModal"
+                  class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
+                >
+                  <SaveModal @closeModal="closeSaveModal" :saveDoc="saveDoc" :currentDoc="title" />
+                </div>
+              </Teleport>
               <button class="btn hover:text-info">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
@@ -108,6 +116,7 @@ import { onMounted, ref, computed } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import DeleteModal from '@/components/Modal/DeleteModal.vue'
+import SaveModal from '@/components/Modal/SaveModal.vue'
 
 const isSidebarOpen = ref(false)
 //const isDeleteModalOpen = ref(false)
@@ -121,8 +130,12 @@ const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
 
 const showDeleteModal = ref(false)
+const showSaveModal = ref(false)
 const closeDeleteModal = (flagModal) => {
   showDeleteModal.value = flagModal
+}
+const closeSaveModal = (flagModal) => {
+  showSaveModal.value = flagModal
 }
 
 function toggleSidebar() {
