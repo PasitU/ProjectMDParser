@@ -56,7 +56,7 @@
                   />
                 </div>
               </Teleport>
-              <button @click="showSaveModal = true" class="btn hover:text-green-400">
+              <button @click="showSaveModal = true" class="btn hover:text-green-400" :class="{'hover:text-green-600':theme === 'nord'}">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
@@ -118,6 +118,7 @@ import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api
 import DropDown from '@/components/DropDown.vue'
 import DeleteModal from '@/components/Modal/DeleteModal.vue'
 import SaveModal from '@/components/Modal/SaveModal.vue'
+// import NoticeModal from '@/components/Modal/NoticeModal.vue'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
 const isSidebarOpen = ref(false)
@@ -140,6 +141,10 @@ function toggleSidebar() {
 const switchTheme = () => {
   theme.value = theme.value === 'dark' ? 'nord' : 'dark'
 }
+
+// const noticeParams = ref(undefined)
+// const showNoticeModal = ref(false)
+
 // --------------------- DATA STORING SECTION ---------------------
 const currentDocument = ref(null)
 const documents = ref([])
