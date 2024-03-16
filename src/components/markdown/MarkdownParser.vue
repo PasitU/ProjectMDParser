@@ -41,6 +41,14 @@ function handleBlur() {
     title.value = props.originalTitle
   }
 }
+
+//Emit on event parsedMarkdown changes
+
+const emits = defineEmits(['passParsedMd'])
+
+watch(parsedMarkdown, () =>{
+  emits('passParsedMd', parsedMarkdown)
+})
 </script>
 
 <template>

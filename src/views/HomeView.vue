@@ -74,7 +74,7 @@
               </Teleport>
               <button class="btn hover:text-info">
                 <v-icon name="co-list" />
-                <h1 class="hidden md:block">Preview</h1>
+                <h1 class="hidden md:block" @click="openPreview">Preview</h1>
               </button>
             </div>
             <DropDown>
@@ -92,7 +92,7 @@
                 </button>
                 <button class="btn flex-start gap-3 hover:text-info">
                   <v-icon name="bi-eye-fill" />
-                  <h1>Preview</h1>
+                  <h1 @click="openPreview">Preview</h1>
                 </button>
               </template>
             </DropDown>
@@ -102,6 +102,7 @@
           v-model:title="title"
           v-model:content="content"
           :original-title="originalTitle"
+          @passParsedMd="setParsedMarkdown"
         />
       </template>
     </SideBar>
@@ -118,6 +119,7 @@ import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api
 import DropDown from '@/components/DropDown.vue'
 import DeleteModal from '@/components/Modal/DeleteModal.vue'
 import SaveModal from '@/components/Modal/SaveModal.vue'
+import { useRouter } from 'vue-router'
 // import NoticeModal from '@/components/Modal/NoticeModal.vue'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
@@ -221,6 +223,24 @@ const deleteDoc = async () => {
     console.error(error)
   }
 }
+
+// PREVIEW ROUTING
+const parsedMarkdown = ref('')
+const setParsedMarkdown = (md) => {
+  if(md === undefined){
+    return
+  }
+  parsedMarkdown.value = md
+}
+
+const router = useRouter()
+
+function openPreview() {
+  const routeData = router.resolve({ name: 'preview', params:{document: title.value, parsedMarkdown: (parsedMarkdown.value === '') ? ' ' : encodeURI(parsedMarkdown.value.value)}})
+  window.open(routeData.href)
+}
+
+
 </script>
 
 <style lang="scss" scoped></style>
