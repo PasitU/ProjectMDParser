@@ -46,37 +46,26 @@
               </button>
               <Teleport to="#addModal">
                 <div
-                  v-if="showDeleteModal"
-                  class="absolute left-0 right-0 top-[40%] m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto z-[9999]"
+                  v-show="showDeleteModal"
+                  class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
                 >
-                  <DeleteModal
-                    @close-modal="closeDeleteModal"
+                  <h3>Kuy!!</h3>
+                  <!-- <DeleteModal
+                    @closeModal="closeDeleteModal"
                     :deleteDoc="deleteDoc"
-                    :current-title="currentDocument.title"
-                  />
+                    :current-document="currentDocument"
+                  /> -->
                 </div>
               </Teleport>
-              <button
-                @click="showSaveModal = true"
-                class="btn hover:text-green-400"
-                :class="{ 'hover:text-green-600': theme === 'nord' }"
-              >
+
+              <!-- <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
+                <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
+              </button> -->
+              <button @click="confirmUpdate" class="btn hover:text-green-400">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
-              <Teleport to="#addModal">
-                <div
-                  v-if="showSaveModal"
-                  class="absolute left-0 right-0 top-[40%] m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto z-[9999]"
-                >
-                  <SaveModal
-                    @closeModal="closeSaveModal"
-                    :saveDoc="saveDoc"
-                    :current-title="currentDocument.title"
-                  />
-                </div>
-              </Teleport>
-              <button class="btn hover:text-info" @click="openPreview">
+              <button class="btn hover:text-info">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
               </button>
@@ -165,7 +154,15 @@ const title = ref('')
 const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
 
-// --------------------- FUNCTION SECTION ---------------------
+// const showDeleteModal = ref(false)
+// const closeDeleteModal = (flagModal) => {
+//   showDeleteModal.value = flagModal
+// }
+
+function toggleSidebar() {
+  isSidebarOpen.value = !isSidebarOpen.value
+}
+
 onMounted(async () => {
   documents.value = await getDocuments()
   currentDocument.value = documents.value[0]
