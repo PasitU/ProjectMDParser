@@ -56,7 +56,11 @@
                   />
                 </div>
               </Teleport>
-              <button @click="showSaveModal = true" class="btn hover:text-green-400" :class="{'hover:text-green-600':theme === 'nord'}">
+              <button
+                @click="showSaveModal = true"
+                class="btn hover:text-green-400"
+                :class="{ 'hover:text-green-600': theme === 'nord' }"
+              >
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
@@ -72,7 +76,7 @@
                   />
                 </div>
               </Teleport>
-              <button class="btn hover:text-info">
+              <button class="btn hover:text-info" @click="openPreview">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
               </button>
@@ -82,15 +86,21 @@
                 <v-icon name="co-list" />
               </template>
               <template v-slot:dropdown-content>
-                <button @click="showDeleteModal = true" class="btn hover:text-error flex-start gap-3">
+                <button
+                  @click="showDeleteModal = true"
+                  class="btn hover:text-error flex-start gap-3"
+                >
                   <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
                   <h2>Delete</h2>
                 </button>
-                <button @click="showSaveModal = true" class="btn hover:text-success flex-start gap-3">
+                <button
+                  @click="showSaveModal = true"
+                  class="btn hover:text-success flex-start gap-3"
+                >
                   <v-icon name="ri-save-3-line" />
                   <h2>Save Changes</h2>
                 </button>
-                <button class="btn flex-start gap-3 hover:text-info">
+                <button class="btn flex-start gap-3 hover:text-info" @click="openPreview">
                   <v-icon name="bi-eye-fill" />
                   <h1>Preview</h1>
                 </button>
@@ -102,6 +112,7 @@
           v-model:title="title"
           v-model:content="content"
           :original-title="originalTitle"
+          @passParsedMd="setParsedMarkdown"
         />
       </template>
     </SideBar>
@@ -118,6 +129,7 @@ import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api
 import DropDown from '@/components/DropDown.vue'
 import DeleteModal from '@/components/Modal/DeleteModal.vue'
 import SaveModal from '@/components/Modal/SaveModal.vue'
+import { useRouter } from 'vue-router'
 // import NoticeModal from '@/components/Modal/NoticeModal.vue'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
@@ -220,6 +232,28 @@ const deleteDoc = async () => {
   } catch (error) {
     console.error(error)
   }
+}
+
+// PREVIEW ROUTING
+const parsedMarkdown = ref('')
+const setParsedMarkdown = (md) => {
+  if (md === undefined) {
+    return
+  }
+  parsedMarkdown.value = md
+}
+
+const router = useRouter()
+
+function openPreview() {
+  const routeData = router.resolve({
+    name: 'preview',
+    params: {
+      document: title.value,
+      parsedMarkdown: parsedMarkdown.value === '' ? ' ' : encodeURI(parsedMarkdown.value.value)
+    }
+  })
+  window.open(routeData.href)
 }
 </script>
 
