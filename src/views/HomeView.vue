@@ -41,38 +41,16 @@
         <NavBar @toggle-sidebar="toggleSidebar" :is-sidebar-open="isSidebarOpen">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
-              <button class="btn btn-ghost hover:text-red-400" onclick="modal_1.showModal()">
+              <button class="btn btn-ghost hover:text-red-400" onclick="delete_modal.showModal()">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
-              <ModalComponent id="modal_1" :modal-function="deleteDoc">
-                <template v-slot:modal-title>
-                  <h1 class="text-3xl text-error font-semibold">Confirm Deletion</h1>
-                </template>
-                <template v-slot:modal-description>
-                  <p class="text-sm text-center">
-                    This action cannot be undone. <br />
-                    Please confirm to proceed with deletion.
-                  </p>
-                </template>
-              </ModalComponent>
 
-              <button class="btn hover:text-green-400" onclick="modal_2.showModal()">
+              <button class="btn hover:text-green-400" onclick="save_modal.showModal()">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
-              <ModalComponent id="modal_2" :modal-function="saveDoc">
-                <template v-slot:modal-title>
-                  <h1 class="text-3xl text-success font-semibold">Confirm Save</h1>
-                </template>
-                <template v-slot:modal-description>
-                  <p class="text-sm text-center">
-                    Are you sure you want to save your changes? <br />
-                    Make sure to review all details before proceeding.
-                  </p>
-                </template>
-              </ModalComponent>
 
-              <button class="btn hover:text-info">
+              <button class="btn hover:text-info" @click="openPreview">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
               </button>
@@ -83,16 +61,13 @@
               </template>
               <template v-slot:dropdown-content>
                 <button
-                  @click="showDeleteModal = true"
+                  onclick="delete_modal.showModal()"
                   class="btn hover:text-error flex-start gap-3"
                 >
                   <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
                   <h2>Delete</h2>
                 </button>
-                <button
-                  @click="showSaveModal = true"
-                  class="btn hover:text-success flex-start gap-3"
-                >
+                <button onclick="save_modal.showModal()" class="btn hover:text-success flex-start gap-3">
                   <v-icon name="ri-save-3-line" />
                   <h2>Save Changes</h2>
                 </button>
@@ -113,6 +88,30 @@
       </template>
     </SideBar>
   </div>
+
+  <ModalComponent id="save_modal" :modal-function="saveDoc">
+    <template v-slot:modal-title>
+      <h1 class="text-3xl text-success font-semibold">Confirm Save</h1>
+    </template>
+    <template v-slot:modal-description>
+      <p class="text-sm text-center">
+        Are you sure you want to save your changes? <br />
+        Make sure to review all details before proceeding.
+      </p>
+    </template>
+  </ModalComponent>
+
+  <ModalComponent id="delete_modal" :modal-function="deleteDoc">
+    <template v-slot:modal-title>
+      <h1 class="text-3xl text-error font-semibold">Confirm Deletion</h1>
+    </template>
+    <template v-slot:modal-description>
+      <p class="text-sm text-center">
+        This action cannot be undone. <br />
+        Please confirm to proceed with deletion.
+      </p>
+    </template>
+  </ModalComponent>
 </template>
 
 <script setup>
@@ -129,8 +128,6 @@ import ModalComponent from '@/components/Modal/ModalComponent.vue'
 // --------------------- PAGE CONTROLLER SECTION ---------------------
 const isSidebarOpen = ref(false)
 const theme = ref('dark')
-const showDeleteModal = ref(false)
-const showSaveModal = ref(false)
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -187,7 +184,7 @@ const saveDoc = async () => {
     console.error(error)
   }
 }
-// CREAtE NEW DOCUMENT
+// CREATE NEW DOCUMENT
 const newDoc = async () => {
   try {
     const newDocument = {
