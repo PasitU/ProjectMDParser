@@ -116,8 +116,6 @@ import SideBar from '@/components/nav/SideBar.vue'
 import { onMounted, ref, computed } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
-import DeleteModal from '@/components/Modal/DeleteModal.vue'
-import SaveModal from '@/components/Modal/SaveModal.vue'
 import { useRouter } from 'vue-router'
 // import NoticeModal from '@/components/Modal/NoticeModal.vue'
 
@@ -158,10 +156,6 @@ const content = ref('')
 // const closeDeleteModal = (flagModal) => {
 //   showDeleteModal.value = flagModal
 // }
-
-function toggleSidebar() {
-  isSidebarOpen.value = !isSidebarOpen.value
-}
 
 onMounted(async () => {
   documents.value = await getDocuments()
