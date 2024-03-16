@@ -56,7 +56,11 @@
                   />
                 </div>
               </Teleport>
-              <button @click="showSaveModal = true" class="btn hover:text-green-400" :class="{'hover:text-green-600':theme === 'nord'}">
+              <button
+                @click="showSaveModal = true"
+                class="btn hover:text-green-400"
+                :class="{ 'hover:text-green-600': theme === 'nord' }"
+              >
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
@@ -72,9 +76,9 @@
                   />
                 </div>
               </Teleport>
-              <button class="btn hover:text-info">
+              <button class="btn hover:text-info" @click="openPreview">
                 <v-icon name="co-list" />
-                <h1 class="hidden md:block" @click="openPreview">Preview</h1>
+                <h1 class="hidden md:block">Preview</h1>
               </button>
             </div>
             <DropDown>
@@ -82,17 +86,23 @@
                 <v-icon name="co-list" />
               </template>
               <template v-slot:dropdown-content>
-                <button @click="showDeleteModal = true" class="btn hover:text-error flex-start gap-3">
+                <button
+                  @click="showDeleteModal = true"
+                  class="btn hover:text-error flex-start gap-3"
+                >
                   <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
                   <h2>Delete</h2>
                 </button>
-                <button @click="showSaveModal = true" class="btn hover:text-success flex-start gap-3">
+                <button
+                  @click="showSaveModal = true"
+                  class="btn hover:text-success flex-start gap-3"
+                >
                   <v-icon name="ri-save-3-line" />
                   <h2>Save Changes</h2>
                 </button>
-                <button class="btn flex-start gap-3 hover:text-info">
+                <button class="btn flex-start gap-3 hover:text-info" @click="openPreview">
                   <v-icon name="bi-eye-fill" />
-                  <h1 @click="openPreview">Preview</h1>
+                  <h1>Preview</h1>
                 </button>
               </template>
             </DropDown>
@@ -227,7 +237,7 @@ const deleteDoc = async () => {
 // PREVIEW ROUTING
 const parsedMarkdown = ref('')
 const setParsedMarkdown = (md) => {
-  if(md === undefined){
+  if (md === undefined) {
     return
   }
   parsedMarkdown.value = md
@@ -236,11 +246,15 @@ const setParsedMarkdown = (md) => {
 const router = useRouter()
 
 function openPreview() {
-  const routeData = router.resolve({ name: 'preview', params:{document: title.value, parsedMarkdown: (parsedMarkdown.value === '') ? ' ' : encodeURI(parsedMarkdown.value.value)}})
+  const routeData = router.resolve({
+    name: 'preview',
+    params: {
+      document: title.value,
+      parsedMarkdown: parsedMarkdown.value === '' ? ' ' : encodeURI(parsedMarkdown.value.value)
+    }
+  })
   window.open(routeData.href)
 }
-
-
 </script>
 
 <style lang="scss" scoped></style>

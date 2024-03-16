@@ -48,10 +48,6 @@ function handleBlur() {
   }
 }
 
-//Emit on event parsedMarkdown changes
-
-const emits = defineEmits(['passParsedMd'])
-
 watch(parsedMarkdown, () =>{
   emits('passParsedMd', parsedMarkdown)
 })
