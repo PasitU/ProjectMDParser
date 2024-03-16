@@ -12,7 +12,6 @@
           <button @click="saveDoc()" class="btn btn-ghost hover:text-green-400 mr-5">
             Confirm
           </button>
-          <button class="btn btn-ghost hover:text-red-400">Cancel</button>
         </form>
       </div>
     </div>

@@ -3,6 +3,9 @@ import { parseToMarkdown } from '@/utils/parser'
 import { ref, onMounted, watch } from 'vue'
 import SwapIcon from '@/components/nav/SwapIcon.vue'
 import MarkdownPreview from './MarkdownPreview.vue'
+import { defineEmits } from 'vue'
+
+const emits = defineEmits(['passParsedMd'])
 
 const props = defineProps(['originalTitle'])
 
@@ -17,6 +20,9 @@ const showMarkdown = ref(true)
 onMounted(parseMarkdown)
 
 watch(markdown, parseMarkdown)
+watch(parsedMarkdown, () =>{
+  emits('passParsedMd', parsedMarkdown)
+})
 
 function parseMarkdown() {
   parsedMarkdown.value = parseToMarkdown(markdown.value)
@@ -41,6 +47,10 @@ function handleBlur() {
     title.value = props.originalTitle
   }
 }
+
+watch(parsedMarkdown, () =>{
+  emits('passParsedMd', parsedMarkdown)
+})
 </script>
 
 <template>

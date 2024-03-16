@@ -18,5 +18,15 @@
   </dialog>
 </template>
 <script setup>
-const { deleteDoc } = defineProps(['deleteDoc'])
+const emits = defineEmits(['closeModal'])
+const { deleteDoc, currentTitle } = defineProps(['deleteDoc', 'currentTitle'])
+
+function closeModal() {
+  emits('closeModal', false)
+}
+
+const deleteDocLikeNow = () => {
+  deleteDoc()
+  closeModal()
+}
 </script>
