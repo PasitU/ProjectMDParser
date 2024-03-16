@@ -23,10 +23,6 @@ defineProps({
   modalFunction: {
     type: Function,
     default: () => console.log('modalFunction is not defined')
-  },
-  modalId: {
-    type: String,
-    default: 'my_modal'
   }
 })
 </script>
