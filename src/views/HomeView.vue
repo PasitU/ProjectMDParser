@@ -41,30 +41,37 @@
         <NavBar @toggle-sidebar="toggleSidebar" :is-sidebar-open="isSidebarOpen">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
-              <button @click="showDeleteModal = true" class="btn btn-ghost hover:text-red-400">
+              <button class="btn btn-ghost hover:text-red-400" onclick="modal_1.showModal()">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
-              <Teleport to="#addModal">
-                <div
-                  v-show="showDeleteModal"
-                  class="absolute left-0 right-0 top-1/3 m-auto btn h-48 w-11/12 max-w-lg shadow-2xl rounded-lg overflow-y-auto"
-                >
-                  <h3>Kuy!!</h3>
-                  <!-- <DeleteModal
-                    @closeModal="closeDeleteModal"
-                    :deleteDoc="deleteDoc"
-                    :current-document="currentDocument"
-                  /> -->
-                </div>
-              </Teleport>
+              <ModalComponent id="modal_1" :modal-function="deleteDoc">
+                <template v-slot:modal-title>
+                  <h1 class="text-3xl text-error font-semibold">Confirm Deletion</h1>
+                </template>
+                <template v-slot:modal-description>
+                  <p class="text-sm text-center">
+                    This action cannot be undone. <br />
+                    Please confirm to proceed with deletion.
+                  </p>
+                </template>
+              </ModalComponent>
 
-              <!-- <button @click="confirmDelete" class="btn btn-ghost hover:text-red-400">
-                <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
-              </button> -->
-              <button @click="confirmUpdate" class="btn hover:text-green-400">
+              <button class="btn hover:text-green-400" onclick="modal_2.showModal()">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
+              <ModalComponent id="modal_2" :modal-function="saveDoc">
+                <template v-slot:modal-title>
+                  <h1 class="text-3xl text-success font-semibold">Confirm Save</h1>
+                </template>
+                <template v-slot:modal-description>
+                  <p class="text-sm text-center">
+                    Are you sure you want to save your changes? <br />
+                    Make sure to review all details before proceeding.
+                  </p>
+                </template>
+              </ModalComponent>
+
               <button class="btn hover:text-info">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
@@ -117,21 +124,13 @@ import { onMounted, ref, computed } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
-// import NoticeModal from '@/components/Modal/NoticeModal.vue'
+import ModalComponent from '@/components/Modal/ModalComponent.vue'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
 const isSidebarOpen = ref(false)
 const theme = ref('dark')
 const showDeleteModal = ref(false)
 const showSaveModal = ref(false)
-
-function closeDeleteModal(flagModal) {
-  showDeleteModal.value = flagModal
-}
-
-const closeSaveModal = (flagModal) => {
-  showSaveModal.value = flagModal
-}
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -141,9 +140,6 @@ const switchTheme = () => {
   theme.value = theme.value === 'dark' ? 'nord' : 'dark'
 }
 
-// const noticeParams = ref(undefined)
-// const showNoticeModal = ref(false)
-
 // --------------------- DATA STORING SECTION ---------------------
 const currentDocument = ref(null)
 const documents = ref([])
@@ -151,11 +147,6 @@ const documents = ref([])
 const title = ref('')
 const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
-
-// const showDeleteModal = ref(false)
-// const closeDeleteModal = (flagModal) => {
-//   showDeleteModal.value = flagModal
-// }
 
 onMounted(async () => {
   documents.value = await getDocuments()
