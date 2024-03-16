@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import MarkdownPreview from '@/components/MarkdownPreview.vue'
+import MarkdownPreview from '@/components/markdown/MarkdownPreview.vue'
 import { parseToMarkdown, initialText } from '@/utils/parser'
 import { ref, computed } from 'vue'
 

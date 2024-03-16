@@ -1,5 +1,5 @@
 <script setup>
-import MarkdownPreview from '@/components/MarkdownPreview.vue';
+import MarkdownPreview from '@/components/markdown/MarkdownPreview.vue';
 defineProps({
     parsedMarkdown:{
         type:String,
