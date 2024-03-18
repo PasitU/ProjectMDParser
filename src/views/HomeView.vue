@@ -54,6 +54,10 @@
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
               </button>
+              <button class="btn hover:text-info">
+                <v-icon name="md-login" />
+                <h1 class="hidden md:block">Login</h1>
+              </button>
             </div>
             <DropDown>
               <template v-slot:dropdown-trigger>
@@ -67,13 +71,24 @@
                   <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
                   <h2>Delete</h2>
                 </button>
-                <button onclick="save_modal.showModal()" class="btn hover:text-success flex-start gap-3">
+                <button
+                  onclick="save_modal.showModal()"
+                  class="btn hover:text-success flex-start gap-3"
+                >
                   <v-icon name="ri-save-3-line" />
                   <h2>Save Changes</h2>
                 </button>
                 <button class="btn flex-start gap-3 hover:text-info" @click="openPreview">
                   <v-icon name="bi-eye-fill" />
                   <h1>Preview</h1>
+                </button>
+                <button v-if="!auth.state.isLogin" class="btn flex-start gap-3 hover:text-info">
+                  <v-icon name="md-login" />
+                  <h1>Login</h1>
+                </button>
+                <button v-if="auth.state.isLogin" class="btn flex-start gap-3 hover:text-info" @click="auth.logout">
+                  <v-icon name="md-login" />
+                  <h1>Logout</h1>
                 </button>
               </template>
             </DropDown>
@@ -119,31 +134,30 @@
 import MarkdownParser from '@/components/markdown/MarkdownParser.vue'
 import NavBar from '@/components/nav/NavBar.vue'
 import SideBar from '@/components/nav/SideBar.vue'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, provide } from 'vue'
 import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
 import ModalComponent from '@/components/Modal/ModalComponent.vue'
+import useAuth from '@/auth/useAuth'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
 const isSidebarOpen = ref(false)
 const theme = ref('dark')
 
-function toggleSidebar() {
-  isSidebarOpen.value = !isSidebarOpen.value
-}
-
-const switchTheme = () => {
-  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
-}
-
 // --------------------- DATA STORING SECTION ---------------------
+
 const currentDocument = ref(null)
 const documents = ref([])
 
 const title = ref('')
 const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
+
+
+// --------------------- AUTH ---------------------
+const auth = useAuth()
+provide('auth', auth)
 
 onMounted(async () => {
   documents.value = await getDocuments()
@@ -153,6 +167,14 @@ onMounted(async () => {
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString()
+}
+
+function toggleSidebar() {
+  isSidebarOpen.value = !isSidebarOpen.value
+}
+
+const switchTheme = () => {
+  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
 }
 
 computed(() => documents.value)
