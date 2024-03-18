@@ -46,7 +46,7 @@
 
 <script setup>
 import useAuth from '@/auth/useAuth'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const auth = useAuth()
 const credential = ref({
