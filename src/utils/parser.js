@@ -37,7 +37,7 @@ const rules = [
 
   // bold, italics, and paragraph
   [/\*\*\s?([^\n]+)\*\*/g, '<b>$1</b>'],
-  [/\*\s?([^\n]+)\*/g, '<i>$1</i>'],
+  [/\*+([^`\n]+?)\*+/g, '<i>$1</i>'],
   [/__([^_]+)__/g, '<b>$1</b>'],
   [/_\s?([^\n]+)_/g, '<p><i>$1</i></p>'],
 
@@ -85,8 +85,8 @@ export const initialText = `# Markdown Guide
 ## Basic Formatting
 ### Text Styles
 This paragraph introduces basic text formatting in Markdown.
-__BOLD TEXT__ 
-*Italic Text*
+The text here is __IMPORTANT__ 
+Penguins are a group of *aquatic flightless birds* from the family Spheniscidae 
 Pricing ~~10.99~~ to 5.99
 
 ### Lists
