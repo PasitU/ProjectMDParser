@@ -267,6 +267,10 @@ const newDoc = async () => {
 }
 // DELETE DOCUMENT
 const deleteDoc = async () => {
+  if (!auth.state.isLogin) {
+    router.push('/login')
+    return;
+  }
   try {
     await deleteDocument(currentDocument.value.id)
     const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
