@@ -3,7 +3,7 @@
     {
       "id": "1611541290306",
       "title": "Welcome.md",
-      "content": "# Markdown Guide\n---\n## Basic Formatting\n### Text Styles\nThis paragraph introduces basic text formatting in Markdown.\nThe text here is __IMPORTANT__ \nPenguins are a group of *aquatic flightless birds* from the family Spheniscidae \nPricing ~~10.99~~ to 5.99\n\n### Lists\nMarkdown supports ordered and unordered lists.\n- Bullet list item\n* Another bullet item\n+ And another one\n\n### Links\n[OpenAI](https://www.openai.com) - This is how you create a link.\n\n### Code\nInline `code` can be wrapped with backticks.\n`function foo()` and `function bar()`\n\n### Blockquote\n> Blockquotes are used to denote quoted text.\n> Multiple lines are supported.))",
+      "content": "# Markdown Guide\n---\n## Basic Formatting\n### Text Styles\nThis paragraph introduces basic text formatting in Markdown.\nThe text here is __IMPORTANT__ \nPenguins are a group of *aquatic flightless birds* from the family Spheniscidae \nPricing ~~10.99~~ to 5.99\n\n### Lists\nMarkdown supports ordered and unordered lists.\n- Bullet list item\n* Another bullet item\n+ And another one\n\n### Links\n[OpenAI](https://www.openai.com) - This is how you create a link.\n\n### Code\nInline `code` can be wrapped with backticks.\n`function foo()` and `function bar()`\n\n### Blockquote\n> Blockquotes are used to denote quoted text.\n> Multiple lines are supported.",
       "createAt": "2024-03-11T12:00:03.258Z",
       "userId": "0"
     },
