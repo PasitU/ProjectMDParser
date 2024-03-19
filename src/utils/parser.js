@@ -37,7 +37,7 @@ const rules = [
 
   // bold, italics, and paragraph
   [/\*\*\s?([^\n]+)\*\*/g, '<b>$1</b>'],
-  [/\*\s?([^\n]+)\*/g, '<p><i>$1</i></p>'],
+  [/\*\s?([^\n]+)\*/g, '<i>$1</i>'],
   [/__([^_]+)__/g, '<b>$1</b>'],
   [/_\s?([^\n]+)_/g, '<p><i>$1</i></p>'],
 
@@ -47,8 +47,8 @@ const rules = [
 
   // highlights
   [
-    /(`)(\s?[^\n,]+\s?)(`)/g,
-    '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$2</span>'
+    /`([^`\n]+?)`/g,
+    '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$1</span>'
   ],
 
   // Image
@@ -80,20 +80,30 @@ export function parseToMarkdown(text) {
   return transformed.replace(/\n<\/ul>/g, '</ul>')
 }
 
-export const initialText = `# Test
+export const initialText = `# Markdown Guide
 ---
-## Heading 2
-### Heading 3
-This is a test paragraph
-- test 1
-* test 2
-+ test 3
-You can [Click this link here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
-__bold text__ 
-**bold text** 
-_italic text_
-*italic text*
-\`word\`
-~~TEST~~
-> Block Quote
-`
+## Basic Formatting
+### Text Styles
+This paragraph introduces basic text formatting in Markdown.
+__BOLD TEXT__ 
+*Italic Text*
+Pricing ~~10.99~~ to 5.99
+
+### Lists
+Markdown supports ordered and unordered lists.
+- Bullet list item
+* Another bullet item
++ And another one
+
+### Links
+[OpenAI](https://www.openai.com) - This is how you create a link.
+
+### Code
+Inline \`code\` can be wrapped with backticks.
+\`function foo()\` and \`function bar()\`
+
+### Blockquote
+> Blockquotes are used to denote quoted text.
+> Multiple lines are supported.))`;
+
+console.log(JSON.stringify(initialText));

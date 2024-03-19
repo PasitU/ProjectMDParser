@@ -1,7 +1,7 @@
 <template>
-  <div class="hero min-h-screen">
+  <div class="hero min-h-screen w-full">
     <div class="hero-content flex-col">
-      <div class="card shadow-2xl md:min-w-[30rem] bg-base-100">
+      <div class="card shadow-2xl sm:min-w-[30rem] bg-base-100">
         <div class="card-body">
           <h1 class="text-5xl font-bold text-center mb-10">Login</h1>
           <div class="form-control">
@@ -47,6 +47,9 @@
 <script setup>
 import useAuth from '@/auth/useAuth'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const auth = useAuth()
 const credential = ref({
@@ -59,6 +62,7 @@ const login = async () => {
     await auth.authenticateUser(credential.value)
     console.log(auth.state.user)
     console.log(auth.state.isLogin);
+    router.push('/')
   } catch (error) {
     console.error(error)
   }

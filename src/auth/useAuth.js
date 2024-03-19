@@ -1,10 +1,10 @@
-const BASE_URL = 'http://localhost:3001'
+const BASE_URL = import.meta.env.VITE_DEV_URL
 
 import { readonly, ref } from 'vue'
 
 const state = {
-  user: ref(null),
-  isLogin: ref(false)
+  user: ref(JSON.parse(localStorage.getItem('user') || null)),
+  isLogin: ref(JSON.parse(localStorage.getItem('isLogin')) || false)
 }
 
 const authenticateUser = async (credential) => {
@@ -21,10 +21,14 @@ const authenticateUser = async (credential) => {
     if (currentUser.password !== credential.password) {
       throw new Error('Password does not match')
     }
+    localStorage.setItem('user', JSON.stringify(currentUser))
+    localStorage.setItem('isLogin', JSON.stringify(true))
     state.user.value = currentUser
     state.isLogin.value = true
+
   } catch (err) {
-    throw new Error('Unable to login')
+    console.error(err)
+    throw err
   }
 }
 
@@ -53,9 +57,13 @@ const register = async (newUser) => {
 const logout = () => {
   state.user.value = null
   state.isLogin.value = false
+  localStorage.removeItem('user')
+  localStorage.removeItem('isLogin')
 }
 
 export default function useAuth() {
+  console.log(state.user.value);
+  console.log(state.isLogin.value);
   return {
     state: readonly(state),
     authenticateUser,
