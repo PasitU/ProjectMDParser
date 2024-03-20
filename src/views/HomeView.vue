@@ -54,6 +54,18 @@
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
               </button>
+              <RouterLink to="/login" class="btn hover:text-info" v-if="!auth.state.isLogin">
+                <v-icon name="md-login" />
+                <h1 class="hidden md:block">Login</h1>
+              </RouterLink>
+              <button
+                v-if="auth.state.isLogin"
+                class="btn flex-start gap-3 hover:text-info"
+                onclick="logout_modal.showModal()"
+              >
+                <v-icon name="md-login" />
+                <h1>Logout</h1>
+              </button>
             </div>
             <DropDown>
               <template v-slot:dropdown-trigger>
@@ -67,13 +79,32 @@
                   <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
                   <h2>Delete</h2>
                 </button>
-                <button onclick="save_modal.showModal()" class="btn hover:text-success flex-start gap-3">
+                <button
+                  onclick="save_modal.showModal()"
+                  class="btn hover:text-success flex-start gap-3"
+                >
                   <v-icon name="ri-save-3-line" />
                   <h2>Save Changes</h2>
                 </button>
                 <button class="btn flex-start gap-3 hover:text-info" @click="openPreview">
                   <v-icon name="bi-eye-fill" />
                   <h1>Preview</h1>
+                </button>
+                <RouterLink
+                  to="/login"
+                  v-if="!auth.state.isLogin"
+                  class="btn flex-start gap-3 hover:text-info"
+                >
+                  <v-icon name="md-login" />
+                  <h1>Login</h1>
+                </RouterLink>
+                <button
+                  v-if="auth.state.isLogin"
+                  class="btn flex-start gap-3 hover:text-info"
+                  onclick="logout_modal.showModal()"
+                >
+                  <v-icon name="md-login" />
+                  <h1>Logout</h1>
                 </button>
               </template>
             </DropDown>
@@ -112,6 +143,18 @@
       </p>
     </template>
   </ModalComponent>
+
+  <ModalComponent id="logout_modal" :modal-function="logout">
+    <template v-slot:modal-title>
+      <h1 class="text-3xl text-error font-semibold">Confirm Logout</h1>
+    </template>
+    <template v-slot:modal-description>
+      <p class="text-sm text-center">
+        Are you sure you want to Logout? <br />
+        Please confirm to proceed.
+      </p>
+    </template>
+  </ModalComponent>
 </template>
 
 <script setup>
@@ -119,25 +162,19 @@
 import MarkdownParser from '@/components/markdown/MarkdownParser.vue'
 import NavBar from '@/components/nav/NavBar.vue'
 import SideBar from '@/components/nav/SideBar.vue'
-import { onMounted, ref, computed } from 'vue'
-import { addDocument, getDocuments, updateDocument, deleteDocument } from '@/api/documentService'
+import { onMounted, ref, computed, provide } from 'vue'
+import { addDocument, updateDocument, deleteDocument, getDocumentsByUser, getGuestDocuments } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
 import ModalComponent from '@/components/Modal/ModalComponent.vue'
+import useAuth from '@/auth/useAuth'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
 const isSidebarOpen = ref(false)
 const theme = ref('dark')
 
-function toggleSidebar() {
-  isSidebarOpen.value = !isSidebarOpen.value
-}
-
-const switchTheme = () => {
-  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
-}
-
 // --------------------- DATA STORING SECTION ---------------------
+
 const currentDocument = ref(null)
 const documents = ref([])
 
@@ -145,14 +182,33 @@ const title = ref('')
 const originalTitle = computed(() => currentDocument.value?.title)
 const content = ref('')
 
+// --------------------- AUTH ---------------------
+const auth = useAuth()
+provide('auth', auth)
+
+const logout = () => {
+  auth.logout()
+  router.push('/').then(() => {
+    window.location.reload()
+  })
+}
+
 onMounted(async () => {
-  documents.value = await getDocuments()
+  documents.value = auth.state.isLogin ? await getDocumentsByUser(auth.state.user.id) : await getGuestDocuments()
   currentDocument.value = documents.value[0]
   selectedDocument(currentDocument.value.id)
 })
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString()
+}
+
+function toggleSidebar() {
+  isSidebarOpen.value = !isSidebarOpen.value
+}
+
+const switchTheme = () => {
+  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
 }
 
 computed(() => documents.value)
@@ -168,12 +224,16 @@ const selectedDocument = (documentID) => {
 // --------------------- API SECTION ---------------------
 // SAVE DOCUMENT
 const saveDoc = async () => {
+  if (!auth.state.isLogin) {
+    router.push('/login')
+    return;
+  }
   try {
     const updateDoc = {
       id: currentDocument.value.id,
       title: title.value,
       content: content.value,
-      createAt: new Date().toISOString()
+      createAt: new Date().toISOString(),
     }
     await updateDocument(updateDoc)
     const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
@@ -186,6 +246,10 @@ const saveDoc = async () => {
 }
 // CREATE NEW DOCUMENT
 const newDoc = async () => {
+  if (!auth.state.isLogin) {
+    router.push('/login')
+    return;
+  }
   try {
     const newDocument = {
       id: String(Date.now()),
@@ -203,6 +267,10 @@ const newDoc = async () => {
 }
 // DELETE DOCUMENT
 const deleteDoc = async () => {
+  if (!auth.state.isLogin) {
+    router.push('/login')
+    return;
+  }
   try {
     await deleteDocument(currentDocument.value.id)
     const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
