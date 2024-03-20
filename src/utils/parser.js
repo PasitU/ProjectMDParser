@@ -105,5 +105,3 @@ Inline \`code\` can be wrapped with backticks.
 ### Blockquote
 > Blockquotes are used to denote quoted text.
 > Multiple lines are supported.))`;
-
-console.log(JSON.stringify(initialText));

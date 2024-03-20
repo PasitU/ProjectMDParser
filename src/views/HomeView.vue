@@ -166,7 +166,7 @@ import { onMounted, ref, computed, provide } from 'vue'
 import { addDocument, updateDocument, deleteDocument, getDocumentsByUser, getGuestDocuments } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
-import ModalComponent from '@/components/Modal/ModalComponent.vue'
+import ModalComponent from '@/components/modal/ModalComponent.vue'
 import useAuth from '@/auth/useAuth'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
