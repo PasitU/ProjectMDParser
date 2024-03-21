@@ -20,35 +20,34 @@ TEST
 */
 
 const rules = [
-  //check box
+  // check box
   [/-\s\[\s\]\s([^\n]+)/g, '<input type=checkbox disabled> $1<br>'],
   [/-\s\[x\]\s([^\n]+)/g, '<input type=checkbox checked disabled> $1<br>'],
 
   // Lists
-  [/^\s*(\*|\+|-)\s+(.+)$/gm, '<li>$2</li>'],
+  [/^\s*(\*|\+|-)\s+([^]*?)(?=\n(\s*(\*|\+|-))|\n*$)/gm, '<li>$2</li>'],
 
   // headers
-  [/#{6}\s?([^\n]+)/g, '<h6>$1</h6>'],
-  [/#{5}\s?([^\n]+)/g, '<h5>$1</h5>'],
-  [/#{4}\s?([^\n]+)/g, '<h4>$1</h4>'],
-  [/#{3}\s?([^\n]+)/g, '<h3>$1</h3>'],
-  [/#{2}\s?([^\n]+)/g, '<h2>$1</h2>'],
-  [/#{1}\s?([^\n]+)/g, '<h1>$1</h1>'],
+  [/#{6}\s?([^]+?)$/gm, '<h6>$1</h6>'],
+  [/#{5}\s?([^]+?)$/gm, '<h5>$1</h5>'],
+  [/#{4}\s?([^]+?)$/gm, '<h4>$1</h4>'],
+  [/#{3}\s?([^]+?)$/gm, '<h3>$1</h3>'],
+  [/#{2}\s?([^]+?)$/gm, '<h2>$1</h2>'],
+  [/#{1}\s?([^]+?)$/gm, '<h1>$1</h1>'],
 
   // bold, italics, and paragraph
-  [/\*\*\s?([^\n]+)\*\*/g, '<b>$1</b>'],
+  [/\*\*\s?([^]+?)\*\*/g, '<strong>$1</strong>'],
   [/\*+([^`\n]+?)\*+/g, '<i>$1</i>'],
-  [/__([^_]+)__/g, '<b>$1</b>'],
-  [/_\s?([^\n]+)_/g, '<p><i>$1</i></p>'],
-
+  [/__([^_]+)__/g, '<strong>$1</strong>'],
+  [/_\s?([^]+?)_/g, '<i>$1</i>'],
 
   // links
   [/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:#2A5DB0;text-decoration: none;">$1</a>'],
 
   // highlights
   [
-    /`([^`\n]+?)`/g,
-    '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$1</span>'
+      /`([^`\n]+?)`/g,
+      '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$1</span>'
   ],
 
   // Image
@@ -58,12 +57,14 @@ const rules = [
   [/-{3,}/g, '<hr>'],
 
   // Quote
-  [/^>\s?([^\n]+)/gm, '<blockquote>$1</blockquote>'],
+  [/^>\s?([^]+?)$/gm, '<blockquote>$1</blockquote>'],
 
   // Strikethrough
-  [/~~([^~]+)~~/g, '<del>$1</del>'],
-  [/^(?!<[huli>])([^\n]+)$/gm, '<p>$1</p>']
-]
+  [/~~([^~\n]+)~~/g, '<del>$1</del>'],
+
+  [/\n/g, '<p></p>']
+];
+
 
 function wrapListItems(transformed) {
   return transformed.replace(/(<li>.+<\/li>)(\s*<li>.+<\/li>)*/g, '<ul>$&</ul>')
