@@ -195,6 +195,9 @@ const logout = () => {
 
 onMounted(async () => {
   documents.value = auth.state.isLogin ? await getDocumentsByUser(auth.state.user.id) : await getGuestDocuments()
+  if (documents.value.length === 0) {
+    await newDoc()
+  }
   currentDocument.value = documents.value[0]
   selectedDocument(currentDocument.value.id)
 })

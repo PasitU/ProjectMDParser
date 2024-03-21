@@ -36,7 +36,7 @@
           </div>
           <div class="divider">Doesn't have an account?</div>
           <div class="form-control mt-6">
-            <button class="btn btn-outline">Register</button>
+            <button class="btn btn-outline" @click="register">Register</button>
           </div>
         </div>
       </div>
@@ -60,11 +60,13 @@ const credential = ref({
 const login = async () => {
   try {
     await auth.authenticateUser(credential.value)
-    console.log(auth.state.user)
-    console.log(auth.state.isLogin);
     router.push('/')
   } catch (error) {
     console.error(error)
   }
+}
+
+const register = () => {
+  router.push('/register')
 }
 </script>

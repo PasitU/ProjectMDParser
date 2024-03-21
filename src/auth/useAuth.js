@@ -62,8 +62,6 @@ const logout = () => {
 }
 
 export default function useAuth() {
-  console.log(state.user.value);
-  console.log(state.isLogin.value);
   return {
     state: readonly(state),
     authenticateUser,
