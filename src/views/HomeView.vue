@@ -234,6 +234,7 @@ const saveDoc = async () => {
       title: title.value,
       content: content.value,
       createAt: new Date().toISOString(),
+      userId: auth.state.user.id,
     }
     await updateDocument(updateDoc)
     const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
@@ -255,7 +256,8 @@ const newDoc = async () => {
       id: String(Date.now()),
       title: `untitled${documents.value.length + 1}.md`,
       content: '# New Document\n\nStart writing here...',
-      createAt: new Date().toISOString()
+      createAt: new Date().toISOString(),
+      userId: auth.state.user.id,
     }
     await addDocument(newDocument)
     documents.value.push(newDocument)
