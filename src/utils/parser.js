@@ -46,8 +46,8 @@ const rules = [
 
   // highlights
   [
-      /`([^`\n]+?)`/g,
-      '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$1</span>'
+    /`([^`\n]+?)`/g,
+    '<span style="background-color:grey;color:black;text-decoration: none;border-radius: 3px;padding:0 2px;">$1</span>'
   ],
 
   // Image
@@ -62,7 +62,7 @@ const rules = [
   // Strikethrough
   [/~~([^~\n]+)~~/g, '<del>$1</del>'],
 
-  [/\n/g, '<p></p>']
+  [/^(?!<[huli>])([^\n]+)$/gm, '<p>$1</p>']
 ];
 
 
