@@ -15,19 +15,14 @@ const authenticateUser = async (credential) => {
     const response = await fetch(`${BASE_URL}/users`)
     const users = await response.json()
     const currentUser = users.find((user) => user.username === credential.username)
-    if (!currentUser) {
-      throw new Error('User not found')
-    }
-    if (currentUser.password !== credential.password) {
-      throw new Error('Password does not match')
+    if (!currentUser || currentUser.password !== credential.password) {
+      throw new Error('Invalid Username or Password')
     }
     localStorage.setItem('user', JSON.stringify(currentUser))
     localStorage.setItem('isLogin', JSON.stringify(true))
     state.user.value = currentUser
     state.isLogin.value = true
-
   } catch (err) {
-    console.error(err)
     throw err
   }
 }

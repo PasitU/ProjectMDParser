@@ -6,12 +6,12 @@
           <h1 class="text-5xl font-bold text-center mb-10">Login</h1>
           <div class="form-control">
             <label class="label">
-              <span class="label-text">Email</span>
+              <span class="label-text">Username</span>
             </label>
             <input
               type="text"
               placeholder="username"
-              class="input input-bordered"
+              class="input input-bordered placeholder-gray-500 border text-gray-200"
               v-model="credential.username"
               required
             />
@@ -23,7 +23,7 @@
             <input
               type="password"
               placeholder="password"
-              class="input input-bordered"
+              class="input input-bordered placeholder-gray-500 border text-gray-200"
               v-model="credential.password"
               required
             />
@@ -31,6 +31,7 @@
               <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
             </label>
           </div>
+          <div v-show="alertMsg !== ''" class="border-none text-sm -mt-1 font-extrabold text-red-500">{{ alertMsg }}</div>
           <div class="form-control mt-6">
             <button class="btn btn-primary" @click="login">Login</button>
           </div>
@@ -50,7 +51,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
-
+const alertMsg = ref("")
 const auth = useAuth()
 const credential = ref({
   username: '',
@@ -62,7 +63,7 @@ const login = async () => {
     await auth.authenticateUser(credential.value)
     router.push('/')
   } catch (error) {
-    console.error(error)
+    alertMsg.value = error.toString().slice(7); 
   }
 }
 
