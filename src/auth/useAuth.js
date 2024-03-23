@@ -23,7 +23,7 @@ const authenticateUser = async (credential) => {
     state.user.value = currentUser
     state.isLogin.value = true
   } catch (err) {
-    throw err
+    throw new Error('')
   }
 }
 
@@ -49,6 +49,34 @@ const register = async (newUser) => {
   }
 }
 
+const editUser = async (updatedUser) => {
+  try {
+    if (!updatedUser || !updatedUser.id || (!updatedUser.username && !updatedUser.password)) {
+      throw new Error('Invalid user data')
+    }
+
+    const response = await fetch(`${BASE_URL}/users/${updatedUser.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedUser)
+    })
+
+    if (!response.ok) {
+      throw new Error('Unable to update user information')
+    }
+
+    // Assuming the response contains the updated user object,
+    // you can update the local storage and state with the updated user.
+    const updatedUserData = await response.json()
+    localStorage.setItem('user', JSON.stringify(updatedUserData))
+    state.user.value = updatedUserData
+  } catch (err) {
+    throw new Error('Unable to update user')
+  }
+}
+
 const logout = () => {
   state.user.value = null
   state.isLogin.value = false
@@ -61,6 +89,7 @@ export default function useAuth() {
     state: readonly(state),
     authenticateUser,
     logout,
-    register
+    register,
+    editUser
   }
 }
