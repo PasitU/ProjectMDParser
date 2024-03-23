@@ -8,9 +8,10 @@
 - Pasit Udompanich | 65130500048
 - Pattaradanai Srichon | 65130500057
 
-- [ ] Delete Modal
-- [ ] Day/Night Mode
-- [ ] Document Lists Style
+- [x] Notify Modal
+- [ ] Theme Switch Button
+- [x] Day/Night Mode
+- [x] Document Lists Style
 - [x] CRUD functional
 - [x] checkbox regex
 - [x] image regex no title
