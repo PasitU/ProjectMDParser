@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:3001/documents'
+import useAuth from '@/auth/useAuth'
+
+const BASE_URL = `${import.meta.env.VITE_DEV_URL}/documents`
 
 // Add a new document to the server --CREATE--
 export const addDocument = async (newDocument) => {
@@ -73,6 +75,43 @@ export const deleteDocument = async (id) => {
     return response.json()
   } catch (error) {
     console.error('Error deleting document:', error.message)
+    throw error
+  }
+}
+
+export const getDocumentsByUser = async (userId) => {
+  try {
+    const response = await fetch(`${BASE_URL}?userId=${userId}`)
+
+    if (!response.ok) {
+      throw new Error('Unable to retrieve documents')
+    }
+
+    return response.json()
+  } catch (error) {
+    console.error('Error getting documents:', error.message)
+    throw error
+  }
+}
+
+export const addDocumentByCurrentUser = async (newDocument) => {
+  const { user } = useAuth().state
+  if (!user) return
+  newDocument.userId = user.id
+  return addDocument(newDocument)
+}
+
+export const getGuestDocuments = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}?userId=0`)
+
+    if (!response.ok) {
+      throw new Error('Unable to retrieve documents')
+    }
+
+    return response.json()
+  } catch (error) {
+    console.error('Error getting documents:', error.message)
     throw error
   }
 }

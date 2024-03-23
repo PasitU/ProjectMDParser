@@ -22,4 +22,3 @@ body {
 .flex-start {
   @apply flex items-center justify-start;
 }
-
