@@ -3,37 +3,21 @@
     <div class="hero-content flex-col">
       <div class="card shadow-2xl sm:min-w-[30rem] bg-base-100">
         <div class="card-body">
-          <h1 class="text-5xl font-bold text-center mb-10">
-            Edit "{{ auth.state.user.username }}" Profile
-          </h1>
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Username </span>
-            </label>
-            <input
-              type="text"
-              placeholder="username"
-              class="input input-bordered placeholder-gray-500 border text-gray-200"
-              required
-              id="username"
-              
-            />
+          <div class="absolute top-[2vh] left-[2vh]">
+            <button @click="goToRoot" class="text-white">
+              <v-icon name="io-arrow-back-outline" class="text-white"></v-icon>
+            </button>
           </div>
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Password</span>
-            </label>
-            <input
-              type="password"
-              placeholder="password"
-              class="input input-bordered placeholder-gray-500 border text-gray-200"
-              required
-              
-            />
+          <div class="flex justify-center">
+            <div class="avatar items-center">
+              <div class="w-24 rounded-full">
+                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              </div>
+            </div>
           </div>
-          <div class="form-control mt-6">
-            <button class="btn btn-primary" @click="updateUser()">Edit Profile</button>
-          </div>
+          <p class="text-center">UserId : {{ auth.state.user.id }}</p>
+          <h1 class="text-5xl font-bold">User : {{ auth.state.user.username }}</h1>
+          <h1 class="text-5xl font-bold">Documents : {{ userIdToCount }}</h1>
         </div>
       </div>
     </div>
@@ -42,22 +26,24 @@
 
 <script setup>
 import useAuth from '@/auth/useAuth'
-// import { ref } from 'vue'
+import { getDocuments } from '@/api/documentService'
+import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter() // Import useRouter outside of the setup
+
 const auth = useAuth()
-console.log(auth.state.user.username)
-console.log(auth.state.user.password)
+const data = ref([])
+onMounted(async () => {
+  data.value = await getDocuments()
+})
 
-// Create a reactive ref for editing user data
-// const editedUser = ref({ username: auth.state.user.username, password: '' })
+const userIdToCount = computed(() => {
+  const userId = auth.state.user.id
+  return data.value.filter((document) => document.userId === userId).length
+})
 
-// Function to handle user data submission
-// const updateUser = async () => {
-//   try {
-//     await auth.editUser(editedUser.value)
-//     console.log('User information updated successfully')
-//     // Optionally, you can redirect the user to another page after successful update
-//   } catch (error) {
-//     console.error('Error updating user information:', error)
-//   }
-// }
+const goToRoot = () => {
+  router.push('/') // Now router is defined and push should work fine
+}
 </script>

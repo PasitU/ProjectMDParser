@@ -1,6 +1,6 @@
 <template>
-  <div class="dropdown dropdown-end md:hidden">
-    <div tabindex="0" role="" class="btn m-1">
+  <div class="dropdown dropdown-end">
+    <div tabindex="0" role="" class="flex items-center gap-2 mx-4">
       <slot name="dropdown-trigger"></slot>
     </div>
     <div
@@ -11,7 +11,6 @@
     </div>
   </div>
 </template>
-<!-- class="flex items-center gap-2 m-1" -->
 
 <script setup></script>
 
