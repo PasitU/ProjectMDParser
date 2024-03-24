@@ -42,9 +42,7 @@
                 @input="checkPassword"
                 required
               />
-              <!-- <label class="text-right mt-2">
-                <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
-              </label> -->
+            
             </div>
             <div class="form-control mt-6">
               <button class="btn btn-primary" :class="!passwordIndicator || isPasswordNull || isUsernameNull ? 'btn-disabled':'btn-primary' " @click="registerUser">Create account</button>

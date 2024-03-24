@@ -41,6 +41,11 @@
         <NavBar @toggle-sidebar="toggleSidebar" :is-sidebar-open="isSidebarOpen">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
+              <h2
+                class="text-2xl font-bold pl-5 hover:scale-110 hover:text-info transition-all duration-100"
+              >
+                <!-- Welcome, {{ auth.state?.user.username }}! -->
+              </h2>
               <button class="btn btn-ghost hover:text-red-400" onclick="delete_modal.showModal()">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
@@ -58,6 +63,15 @@
                 <v-icon name="md-login" />
                 <h1 class="hidden md:block">Login</h1>
               </RouterLink>
+
+              <router-link
+                class="btn flex-start gap-3 hover:text-yellow-300"
+                :to="{ name: 'edit', params: { id: auth.state.user.id } }"
+                v-if="auth.state.isLogin"
+              >
+                <v-icon name="fa-edit" />
+                <h1>Edit</h1>
+              </router-link>
               <button
                 v-if="auth.state.isLogin"
                 class="btn flex-start gap-3 hover:text-info"
@@ -98,6 +112,14 @@
                   <v-icon name="md-login" />
                   <h1>Login</h1>
                 </RouterLink>
+                <button
+                  v-if="auth.state.isLogin"
+                  class="btn flex-start gap-3 hover:text-info"
+                  onclick="logout_modal.showModal()"
+                >
+                  <v-icon name="fa-edit" />
+                  <h1>Edit Profile</h1>
+                </button>
                 <button
                   v-if="auth.state.isLogin"
                   class="btn flex-start gap-3 hover:text-info"
@@ -163,7 +185,13 @@ import MarkdownParser from '@/components/markdown/MarkdownParser.vue'
 import NavBar from '@/components/nav/NavBar.vue'
 import SideBar from '@/components/nav/SideBar.vue'
 import { onMounted, ref, computed, provide } from 'vue'
-import { addDocument, updateDocument, deleteDocument, getDocumentsByUser, getGuestDocuments } from '@/api/documentService'
+import {
+  addDocument,
+  updateDocument,
+  deleteDocument,
+  getDocumentsByUser,
+  getGuestDocuments
+} from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
 import ModalComponent from '@/components/Modal/ModalComponent.vue'
@@ -194,7 +222,9 @@ const logout = () => {
 }
 
 onMounted(async () => {
-  documents.value = auth.state.isLogin ? await getDocumentsByUser(auth.state.user.id) : await getGuestDocuments()
+  documents.value = auth.state.isLogin
+    ? await getDocumentsByUser(auth.state.user.id)
+    : await getGuestDocuments()
   if (documents.value.length === 0) {
     await newDoc()
   }
@@ -229,7 +259,7 @@ const selectedDocument = (documentID) => {
 const saveDoc = async () => {
   if (!auth.state.isLogin) {
     router.push('/login')
-    return;
+    return
   }
   try {
     const updateDoc = {
@@ -237,7 +267,7 @@ const saveDoc = async () => {
       title: title.value,
       content: content.value,
       createAt: new Date().toISOString(),
-      userId: auth.state.user.id,
+      userId: auth.state.user.id
     }
     await updateDocument(updateDoc)
     const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
@@ -252,7 +282,7 @@ const saveDoc = async () => {
 const newDoc = async () => {
   if (!auth.state.isLogin) {
     router.push('/login')
-    return;
+    return
   }
   try {
     const newDocument = {
@@ -260,7 +290,7 @@ const newDoc = async () => {
       title: `untitled${documents.value.length + 1}.md`,
       content: '# New Document\n\nStart writing here...',
       createAt: new Date().toISOString(),
-      userId: auth.state.user.id,
+      userId: auth.state.user.id
     }
     await addDocument(newDocument)
     documents.value.push(newDocument)
@@ -274,7 +304,7 @@ const newDoc = async () => {
 const deleteDoc = async () => {
   if (!auth.state.isLogin) {
     router.push('/login')
-    return;
+    return
   }
   try {
     await deleteDocument(currentDocument.value.id)

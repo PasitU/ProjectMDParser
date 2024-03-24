@@ -16,3 +16,4 @@
 - [x] checkbox regex
 - [x] image regex no title
 - [x] Preview Routing Prototype
+- [x] Login validation message
