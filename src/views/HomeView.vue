@@ -44,12 +44,10 @@
               <button class="btn btn-ghost hover:text-red-400" onclick="delete_modal.showModal()">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
-
               <button class="btn hover:text-green-400" onclick="save_modal.showModal()">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
-
               <button class="btn hover:text-info" @click="openPreview">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
@@ -98,6 +96,14 @@
                   <v-icon name="md-login" />
                   <h1>Login</h1>
                 </RouterLink>
+                <button
+                  v-if="auth.state.isLogin"
+                  class="btn flex-start gap-3 hover:text-info"
+                  onclick="logout_modal.showModal()"
+                >
+                  <v-icon name="fa-edit" />
+                  <h1>Edit Profile</h1>
+                </button>
                 <button
                   v-if="auth.state.isLogin"
                   class="btn flex-start gap-3 hover:text-info"
@@ -163,10 +169,16 @@ import MarkdownParser from '@/components/markdown/MarkdownParser.vue'
 import NavBar from '@/components/nav/NavBar.vue'
 import SideBar from '@/components/nav/SideBar.vue'
 import { onMounted, ref, computed, provide } from 'vue'
-import { addDocument, updateDocument, deleteDocument, getDocumentsByUser, getGuestDocuments } from '@/api/documentService'
+import {
+  addDocument,
+  updateDocument,
+  deleteDocument,
+  getDocumentsByUser,
+  getGuestDocuments
+} from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
-import ModalComponent from '@/components/modal/ModalComponent.vue'
+import ModalComponent from '@/components/Modal/ModalComponent.vue'
 import useAuth from '@/auth/useAuth'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
@@ -194,7 +206,9 @@ const logout = () => {
 }
 
 onMounted(async () => {
-  documents.value = auth.state.isLogin ? await getDocumentsByUser(auth.state.user.id) : await getGuestDocuments()
+  documents.value = auth.state.isLogin
+    ? await getDocumentsByUser(auth.state.user.id)
+    : await getGuestDocuments()
   if (documents.value.length === 0) {
     await newDoc()
   }
@@ -229,7 +243,7 @@ const selectedDocument = (documentID) => {
 const saveDoc = async () => {
   if (!auth.state.isLogin) {
     router.push('/login')
-    return;
+    return
   }
   try {
     const updateDoc = {
@@ -237,7 +251,7 @@ const saveDoc = async () => {
       title: title.value,
       content: content.value,
       createAt: new Date().toISOString(),
-      userId: auth.state.user.id,
+      userId: auth.state.user.id
     }
     await updateDocument(updateDoc)
     const index = documents.value.findIndex((doc) => doc.id === currentDocument.value.id)
@@ -252,7 +266,7 @@ const saveDoc = async () => {
 const newDoc = async () => {
   if (!auth.state.isLogin) {
     router.push('/login')
-    return;
+    return
   }
   try {
     const newDocument = {
@@ -260,7 +274,7 @@ const newDoc = async () => {
       title: `untitled${documents.value.length + 1}.md`,
       content: '# New Document\n\nStart writing here...',
       createAt: new Date().toISOString(),
-      userId: auth.state.user.id,
+      userId: auth.state.user.id
     }
     await addDocument(newDocument)
     documents.value.push(newDocument)
@@ -274,7 +288,7 @@ const newDoc = async () => {
 const deleteDoc = async () => {
   if (!auth.state.isLogin) {
     router.push('/login')
-    return;
+    return
   }
   try {
     await deleteDocument(currentDocument.value.id)
