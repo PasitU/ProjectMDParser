@@ -56,15 +56,6 @@
                 <v-icon name="md-login" />
                 <h1 class="hidden md:block">Login</h1>
               </RouterLink>
-
-              <router-link
-                class="btn flex-start gap-3 hover:text-yellow-300"
-                :to="{ name: 'edit', params: { id: auth.state.user.id } }"
-                v-if="auth.state.isLogin"
-              >
-                <v-icon name="fa-edit" />
-                <h1>Edit</h1>
-              </router-link>
               <button
                 v-if="auth.state.isLogin"
                 class="btn flex-start gap-3 hover:text-info"
