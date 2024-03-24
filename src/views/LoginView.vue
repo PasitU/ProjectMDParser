@@ -4,6 +4,7 @@
       <div class="card shadow-2xl sm:min-w-[30rem] bg-base-100">
         <div class="card-body">
           <h1 class="text-5xl font-bold text-center mb-10">Login</h1>
+          <AlertComponent v-if="alertMsg" :alertMsg="alertMsg" />
           <div class="form-control">
             <label class="label">
               <span class="label-text">Username</span>
@@ -31,7 +32,7 @@
               <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
             </label>
           </div>
-          <div v-show="alertMsg !== ''" class="border-none text-sm -mt-1 font-extrabold text-red-500">{{ alertMsg }}</div>
+
           <div class="form-control mt-6">
             <button class="btn btn-primary" @click="login">Login</button>
           </div>
@@ -47,11 +48,12 @@
 
 <script setup>
 import useAuth from '@/auth/useAuth'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router';
+import AlertComponent from '@/components/AlertComponent.vue'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const alertMsg = ref("")
+const alertMsg = ref('')
 const auth = useAuth()
 const credential = ref({
   username: '',
@@ -63,11 +65,16 @@ const login = async () => {
     await auth.authenticateUser(credential.value)
     router.push('/')
   } catch (error) {
-    alertMsg.value = error.toString().slice(7); 
+    alertMsg.value = error.message
   }
 }
 
 const register = () => {
   router.push('/register')
 }
+
+watch(credential.value, () => {
+  alertMsg.value = ''
+}
+)
 </script>

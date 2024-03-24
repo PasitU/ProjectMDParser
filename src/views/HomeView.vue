@@ -44,7 +44,7 @@
               <h2
                 class="text-2xl font-bold pl-5 hover:scale-110 hover:text-info transition-all duration-100"
               >
-                Welcome, {{ auth.state.user.username }}!
+                <!-- Welcome, {{ auth.state?.user.username }}! -->
               </h2>
               <button class="btn btn-ghost hover:text-red-400" onclick="delete_modal.showModal()">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
