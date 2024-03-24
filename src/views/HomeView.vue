@@ -41,21 +41,13 @@
         <NavBar @toggle-sidebar="toggleSidebar" :is-sidebar-open="isSidebarOpen">
           <template v-slot:nav-link>
             <div class="md:flex items-center gap-2 hidden">
-              <h2
-                v-if="auth.state.isLogin"
-                class="text-2xl font-bold pl-5 hover:scale-110 hover:text-info transition-all duration-100"
-              >
-                Welcome, {{ auth.state.user.username }}!
-              </h2>
               <button class="btn btn-ghost hover:text-red-400" onclick="delete_modal.showModal()">
                 <v-icon name="ri-delete-bin-5-fill" hover animation="ring" />
               </button>
-
               <button class="btn hover:text-green-400" onclick="save_modal.showModal()">
                 <v-icon name="ri-save-3-line" />
                 <h2 class="hidden md:block">Save Changes</h2>
               </button>
-
               <button class="btn hover:text-info" @click="openPreview">
                 <v-icon name="co-list" />
                 <h1 class="hidden md:block">Preview</h1>
