@@ -4,6 +4,7 @@
         <div class="card shadow-2xl sm:min-w-[30rem] bg-base-100">
           <div class="card-body">
             <h1 class="text-5xl font-bold text-center mb-10">Register</h1>
+            <AlertComponent v-if="alertMsg" :alertMsg="alertMsg" />
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Username</span>
@@ -61,6 +62,7 @@
   import useAuth from '@/auth/useAuth'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router';
+  import AlertComponent from '@/components/AlertComponent.vue'
   
   const router = useRouter()
   const auth = useAuth()
@@ -68,6 +70,7 @@
   const passwordIndicator = ref(false)
   const isPasswordNull = ref(true)
   const isUsernameNull = ref(true)
+  const alertMsg = ref('')
 
   const password = ref({
     one: '',
@@ -109,7 +112,7 @@
         await auth.register(credential.value)
         router.push('/login')
       } catch (error) {
-        console.error(error)
+        alertMsg.value = error.message
       }
     } else {
       // do something

@@ -27,29 +27,45 @@ const authenticateUser = async (credential) => {
     state.isLogin.value = true
   } catch (err) {
     console.error(err.message)
-    throw err 
+    throw err
+  }
+}
+
+const getAllUsers = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/users`)
+    const users = await response.json()
+    return users
+  } catch {
+    throw new Error('Unable to fetch users')
   }
 }
 
 const register = async (newUser) => {
   if (!newUser.username || !newUser.password) return
-  try {
-    const response = await fetch(`${BASE_URL}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: Date.now(),
-        username: newUser.username,
-        password: newUser.password
+  const allUsersData = await getAllUsers()
+  const usernameExists = allUsersData.some((user) => user.username === newUser.username)
+  if (usernameExists) {
+    throw new Error('Username already exists')
+  } else {
+    try {
+      const response = await fetch(`${BASE_URL}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: Date.now(),
+          username: newUser.username,
+          password: newUser.password
+        })
       })
-    })
-    if (!response.ok) {
-      throw new Error('Unable to register')
+      if (!response.ok) {
+        throw new Error('Unable to register')
+      }
+    } catch (err) {
+      throw new Error('Unable to register' + err.message)
     }
-  } catch (err) {
-    throw new Error('Unable to register')
   }
 }
 
@@ -94,6 +110,7 @@ export default function useAuth() {
     authenticateUser,
     logout,
     register,
-    editUser
+    editUser,
+    getAllUsers
   }
 }

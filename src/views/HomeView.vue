@@ -28,12 +28,6 @@
                 </button>
               </li>
             </ul>
-            <button
-              @click="switchTheme"
-              class="felx w-full p-4 bg-base-200 hover:bg-base-300 transition-all duration-300 ease-linear"
-            >
-              MockUp Theme Switch
-            </button>
           </div>
         </div>
       </template>
@@ -65,6 +59,7 @@
                 <h1>Logout</h1>
               </button>
             </div>
+            <!-- dropdown -->
             <DropDown>
               <template v-slot:dropdown-trigger>
                 <v-icon name="co-list" />
@@ -125,7 +120,7 @@
       </template>
     </SideBar>
   </div>
-
+  <!-- save modal -->
   <ModalComponent id="save_modal" :modal-function="saveDoc">
     <template v-slot:modal-title>
       <h1 class="text-3xl text-success font-semibold">Confirm Save</h1>
@@ -137,7 +132,7 @@
       </p>
     </template>
   </ModalComponent>
-
+  <!-- delete modal -->
   <ModalComponent id="delete_modal" :modal-function="deleteDoc">
     <template v-slot:modal-title>
       <h1 class="text-3xl text-error font-semibold">Confirm Deletion</h1>
@@ -149,7 +144,7 @@
       </p>
     </template>
   </ModalComponent>
-
+  <!-- logout modal -->
   <ModalComponent id="logout_modal" :modal-function="logout">
     <template v-slot:modal-title>
       <h1 class="text-3xl text-error font-semibold">Confirm Logout</h1>
@@ -178,7 +173,7 @@ import {
 } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
-import ModalComponent from '@/components/Modal/ModalComponent.vue'
+import ModalComponent from '@/components/modal/ModalComponent.vue'
 import useAuth from '@/auth/useAuth'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
@@ -222,10 +217,6 @@ const formatDate = (date) => {
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
-}
-
-const switchTheme = () => {
-  theme.value = theme.value === 'dark' ? 'nord' : 'dark'
 }
 
 computed(() => documents.value)
