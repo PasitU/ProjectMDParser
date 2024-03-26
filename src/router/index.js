@@ -52,7 +52,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const { state } = useAuth();
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  if (requiresAuth && !state.isLogin.value) {
+  if (requiresAuth && !state.isLogin) {
     next('/login')
   } else {
     next()
