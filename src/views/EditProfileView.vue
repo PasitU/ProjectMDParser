@@ -17,7 +17,7 @@
           </div>
           <p class="text-center">UserId : {{ auth.state.user.id }}</p>
           <h1 class="text-5xl font-bold">User : {{ auth.state.user.username }}</h1>
-          <h1 class="text-5xl font-bold">Documents : {{ userIdToCount }}</h1>
+          <h1 class="text-5xl font-bold">Documents : {{ count }}</h1>
         </div>
       </div>
     </div>
@@ -26,24 +26,27 @@
 
 <script setup>
 import useAuth from '@/auth/useAuth'
-import { getDocuments } from '@/api/documentService'
-import { ref, onMounted, computed } from 'vue'
+import { getDocumentsByUser } from '@/api/documentService'
+import { ref, onMounted, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter() // Import useRouter outside of the setup
+const router = useRouter()
 
 const auth = useAuth()
 const data = ref([])
+
 onMounted(async () => {
-  data.value = await getDocuments()
+  data.value = await getDocumentsByUser(auth.state.user.id)
 })
 
-const userIdToCount = computed(() => {
-  const userId = auth.state.user.id
-  return data.value.filter((document) => document.userId === userId).length
+const count = ref(0)
+
+// Update count when data changes
+watchEffect(() => {
+  count.value = data.value.length
 })
 
 const goToRoot = () => {
-  router.push('/') // Now router is defined and push should work fine
+  router.push('/')
 }
 </script>
