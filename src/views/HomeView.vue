@@ -58,7 +58,7 @@
               </RouterLink>
             </div>
 
-            <DropDown>
+            <DropDown class="md:hidden">
               <template v-slot:dropdown-trigger>
                 <v-icon name="co-list" />
               </template>
@@ -92,7 +92,7 @@
               </template>
             </DropDown>
 
-            <DropDownProFile v-if="auth.state.isLogin">
+            <DropDown v-if="auth.state.isLogin" variant="secondary">
               <template v-slot:dropdown-trigger>
                 <div class="avatar">
                   <div class="w-[2.75rem] rounded-full">
@@ -101,7 +101,6 @@
                     />
                   </div>
                 </div>
-                <h1>^</h1>
               </template>
               <template v-slot:dropdown-content>
                 <router-link
@@ -120,7 +119,7 @@
                   <h1>Logout</h1>
                 </button>
               </template>
-            </DropDownProFile>
+            </DropDown>
           </template>
         </NavBar>
         <MarkdownParser
@@ -184,7 +183,6 @@ import {
   getGuestDocuments
 } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
-import DropDownProFile from '@/components/DropDownProFile.vue'
 import { useRouter } from 'vue-router'
 import ModalComponent from '@/components/Modal/ModalComponent.vue'
 import useAuth from '@/auth/useAuth'

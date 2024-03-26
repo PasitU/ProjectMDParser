@@ -1,6 +1,6 @@
 <template>
-  <div class="dropdown dropdown-end md:hidden">
-    <div tabindex="0" role="" class="btn m-1">
+  <div class="dropdown dropdown-end">
+    <div tabindex="0" role="" class="btn m-1" :class="classes">
       <slot name="dropdown-trigger"></slot>
     </div>
     <div
@@ -13,6 +13,21 @@
 </template>
 <!-- class="flex items-center gap-2 m-1" -->
 
-<script setup></script>
+<script setup>
+import { computed } from 'vue'
+
+const { variant } = defineProps({
+  variant: {
+    type: String,
+    default: 'primary'
+  }
+})
+const classes = computed(() => {
+  return {
+    btn: variant === 'primary',
+    'btn-ghost': variant === 'secondary'
+  }
+})
+</script>
 
 <style lang="scss" scoped></style>

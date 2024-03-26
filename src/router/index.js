@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import useAuth from '@/auth/useAuth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +27,10 @@ const router = createRouter({
       path: '/preview/:document/:parsedMarkdown',
       name: 'preview',
       component: () => import('../views/PreView.vue'),
-      props: true
+      props: true,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/register',
@@ -37,9 +41,22 @@ const router = createRouter({
     {
       path: '/profile/:id',
       name: 'profile',
-      component: () => import('../views/EditProfileView.vue')
+      component: () => import('../views/EditProfileView.vue'),
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const { state } = useAuth();
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if (requiresAuth && !state.isLogin.value) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
