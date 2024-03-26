@@ -12,7 +12,10 @@ import {
   MdLogin,
   FaEdit,
   CoUser,
-  IoArrowBackOutline
+  IoArrowBackOutline,
+  MdArrowback,
+  IoDocument,
+  FaUserAlt
 } from 'oh-vue-icons/icons'
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
 
@@ -26,7 +29,10 @@ addIcons(
   MdLogin,
   FaEdit,
   CoUser,
-  IoArrowBackOutline
+  IoArrowBackOutline,
+  MdArrowback,
+  IoDocument,
+  FaUserAlt
 )
 const app = createApp(App)
 app.component('v-icon', OhVueIcon)
