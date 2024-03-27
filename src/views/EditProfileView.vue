@@ -15,7 +15,7 @@
               </div>
             </div>
           </div>
-          <div class="flex mx-auto my-2">
+          <div class="flex mx-auto my-2 flex-col sm:flex-row sm:flex-wrap sm:justify-between">
             <h1 class="p-2 text-green-500">
               <v-icon name="fa-user-alt"></v-icon>:
               <span class="italic font-extrabold text-xl text-slate-400">{{
@@ -28,33 +28,17 @@
                 >{{ count }} documents</span
               >
             </h1>
-            <h1>{{}}</h1>
           </div>
-          <div class="bg-base-300 rounded-md mb-2 h-72 overflow-y-scroll">
-            <ul class="flex flex-col mt-2">
-              <!-- <li v-for="doc in data" :key="doc.id">
-                <p class="group-hover:text-info" v-text="doc.title"></p>
-                <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
-              </li> -->
-
-              <!-- Test Tailwind Kub -->
-              <li class="bg-base-100 rounded-md mx-3 mb-2 p-5">
-                <p class="pb-1">Title: heartSudLor</p>
-                <p>Date: 12/06/2547</p>
-              </li>
-              <li class="bg-base-100 rounded-md mx-3 mb-2 p-5">
-                <p class="pb-1">Title: BookLorNoiKwaHeartNitNoi</p>
-                <p>Date: 13/06/2547</p>
-              </li>
-              <li class="bg-base-100 rounded-md mx-3 mb-2 p-5">
-                <p class="pb-1">Title: heartThae</p>
-                <p>Date: 14/06/2547</p>
-              </li>
-              <li class="bg-base-100 rounded-md mx-3 mb-2 p-5">
-                <p class="pb-1">Title: YakMeFanWa</p>
-                <p>Date: 15/06/2547</p>
-              </li>
-            </ul>
+          <div>
+            <h1 class="ml-3 mb-1">Your Documents</h1>
+            <div class="bg-base-300 rounded-md mb-2 max-h-72 w-72 sm:w-auto overflow-y-scroll">
+              <ul class="flex flex-col mt-2">
+                <li v-for="doc in data" :key="doc.id" class="bg-base-100 rounded-md mx-3 mb-2 p-5">
+                  <p v-text="doc.title"></p>
+                  <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
+                </li>
+              </ul>
+            </div>
           </div>
           <button
             class="btn flex-start gap-3 hover:text-red-400"
@@ -112,5 +96,9 @@ const logout = () => {
   router.push('/').then(() => {
     window.location.reload()
   })
+}
+
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString()
 }
 </script>
