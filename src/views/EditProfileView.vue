@@ -3,61 +3,102 @@
     <div class="hero-content flex-col">
       <div class="card shadow-2xl sm:min-w-[30rem] bg-base-100">
         <div class="card-body">
-          <h1 class="text-5xl font-bold text-center mb-10">
-            Edit "{{ auth.state.user.username }}" Profile
-          </h1>
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Username </span>
-            </label>
-            <input
-              type="text"
-              placeholder="username"
-              class="input input-bordered placeholder-gray-500 border text-gray-200"
-              required
-              id="username"
-              
-            />
+          <div class="absolute top-[2vh] left-[2vh]">
+            <button @click="goToRoot">
+              <v-icon name="md-arrowback"></v-icon>
+            </button>
           </div>
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Password</span>
-            </label>
-            <input
-              type="password"
-              placeholder="password"
-              class="input input-bordered placeholder-gray-500 border text-gray-200"
-              required
-              
-            />
+          <div class="flex justify-center">
+            <div class="avatar items-center">
+              <div class="w-24 rounded-full">
+                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              </div>
+            </div>
           </div>
-          <div class="form-control mt-6">
-            <button class="btn btn-primary" @click="updateUser()">Edit Profile</button>
+          <div class="flex mx-auto my-2 flex-col sm:flex-row sm:flex-wrap sm:justify-between">
+            <h1 class="p-2 text-green-500">
+              <v-icon name="fa-user-alt"></v-icon>:
+              <span class="italic font-extrabold text-xl text-slate-400">{{
+                auth.state.user.username
+              }}</span>
+            </h1>
+            <h1 class="p-2 text-sky-500">
+              <v-icon name="io-document"></v-icon>:
+              <span class="italic font-extrabold text-xl text-slate-400"
+                >{{ count }} documents</span
+              >
+            </h1>
           </div>
+          <div>
+            <h1 class="ml-3 mb-1">Your Documents</h1>
+            <div class="bg-base-300 rounded-md mb-2 max-h-72 w-72 sm:w-auto overflow-y-scroll">
+              <ul class="flex flex-col mt-2">
+                <li v-for="doc in data" :key="doc.id" class="bg-base-100 rounded-md mx-3 mb-2 p-5">
+                  <p v-text="doc.title"></p>
+                  <p class="text-sm" v-text="formatDate(doc.createAt)"></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <button
+            class="btn flex-start gap-3 hover:text-red-400"
+            onclick="logout_modal.showModal()"
+          >
+            <v-icon name="md-login" />
+            <h1>Logout</h1>
+          </button>
         </div>
       </div>
     </div>
   </div>
+  <ModalComponent id="logout_modal" :modal-function="logout">
+    <template v-slot:modal-title>
+      <h1 class="text-3xl text-error font-semibold">Confirm Logout</h1>
+    </template>
+    <template v-slot:modal-description>
+      <p class="text-sm text-center">
+        Are you sure you want to Logout? <br />
+        Please confirm to proceed.
+      </p>
+    </template>
+  </ModalComponent>
 </template>
 
 <script setup>
 import useAuth from '@/auth/useAuth'
-// import { ref } from 'vue'
+import { getDocumentsByUser } from '@/api/documentService'
+import { ref, onMounted, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
+import ModalComponent from '@/components/Modal/ModalComponent.vue';
+
+const router = useRouter()
+
 const auth = useAuth()
-console.log(auth.state.user.username)
-console.log(auth.state.user.password)
+const data = ref([])
 
-// Create a reactive ref for editing user data
-// const editedUser = ref({ username: auth.state.user.username, password: '' })
+onMounted(async () => {
+  data.value = await getDocumentsByUser(auth.state.user.id)
+})
 
-// Function to handle user data submission
-// const updateUser = async () => {
-//   try {
-//     await auth.editUser(editedUser.value)
-//     console.log('User information updated successfully')
-//     // Optionally, you can redirect the user to another page after successful update
-//   } catch (error) {
-//     console.error('Error updating user information:', error)
-//   }
-// }
+const count = ref(0)
+
+// Update count when data changes
+watchEffect(() => {
+  count.value = data.value.length
+})
+
+const goToRoot = () => {
+  router.push('/')
+}
+
+const logout = () => {
+  auth.logout()
+  router.push('/').then(() => {
+    window.location.reload()
+  })
+}
+
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString()
+}
 </script>
