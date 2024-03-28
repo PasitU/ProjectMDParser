@@ -69,7 +69,7 @@ import useAuth from '@/auth/useAuth'
 import { getDocumentsByUser } from '@/api/documentService'
 import { ref, onMounted, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import ModalComponent from '@/components/Modal/ModalComponent.vue'
+import ModalComponent from '@/components/Modal/ModalComponent.vue';
 
 const router = useRouter()
 

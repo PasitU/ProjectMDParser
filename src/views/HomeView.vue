@@ -178,7 +178,7 @@ import {
 } from '@/api/documentService'
 import DropDown from '@/components/DropDown.vue'
 import { useRouter } from 'vue-router'
-import ModalComponent from '@/components/modal/ModalComponent.vue'
+import ModalComponent from '@/components/Modal/ModalComponent.vue'
 import useAuth from '@/auth/useAuth'
 
 // --------------------- PAGE CONTROLLER SECTION ---------------------
