@@ -50,17 +50,9 @@
                 <v-icon name="md-login" />
                 <h1 class="hidden md:block">Login</h1>
               </RouterLink>
-              <button
-                v-if="auth.state.isLogin"
-                class="btn flex-start gap-3 hover:text-info"
-                onclick="logout_modal.showModal()"
-              >
-                <v-icon name="md-login" />
-                <h1>Logout</h1>
-              </button>
             </div>
-            <!-- dropdown -->
-            <DropDown>
+
+            <DropDown class="md:hidden">
               <template v-slot:dropdown-trigger>
                 <v-icon name="co-list" />
               </template>
@@ -91,17 +83,30 @@
                   <v-icon name="md-login" />
                   <h1>Login</h1>
                 </RouterLink>
-                <button
-                  v-if="auth.state.isLogin"
-                  class="btn flex-start gap-3 hover:text-info"
-                  onclick="logout_modal.showModal()"
+              </template>
+            </DropDown>
+
+            <DropDown v-if="auth.state.isLogin" variant="secondary">
+              <template v-slot:dropdown-trigger>
+                <div class="avatar">
+                  <div class="w-[2.75rem] rounded-full">
+                    <img
+                      src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                  </div>
+                </div>
+              </template>
+              <template v-slot:dropdown-content>
+                <router-link
+                  :to="{ name: 'profile', params: { id: auth.state.user.id } }"
+                  class="btn flex-start gap-3 hover:text-green-400"
                 >
-                  <v-icon name="fa-edit" />
-                  <h1>Edit Profile</h1>
-                </button>
+                  <v-icon name="co-user" />
+                  <h1>Profile</h1>
+                </router-link>
+
                 <button
-                  v-if="auth.state.isLogin"
-                  class="btn flex-start gap-3 hover:text-info"
+                  class="btn flex-start gap-3 hover:text-red-400"
                   onclick="logout_modal.showModal()"
                 >
                   <v-icon name="md-login" />
