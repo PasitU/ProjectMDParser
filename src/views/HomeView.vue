@@ -312,7 +312,7 @@ function openPreview() {
     name: 'preview',
     params: {
       document: title.value,
-      parsedMarkdown: parsedMarkdown.value === '' ? ' ' : encodeURI(parsedMarkdown.value.value)
+      parsedMarkdown: parsedMarkdown.value === '' ? ' ' : encodeURI(parsedMarkdown.value)
     }
   })
   window.open(routeData.href)

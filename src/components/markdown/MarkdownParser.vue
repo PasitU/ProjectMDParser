@@ -21,7 +21,7 @@ onMounted(parseMarkdown)
 
 watch(markdown, parseMarkdown)
 watch(parsedMarkdown, () =>{
-  emits('passParsedMd', parsedMarkdown)
+  emits('passParsedMd', parsedMarkdown.value)
 })
 
 function parseMarkdown() {
@@ -48,20 +48,18 @@ function handleBlur() {
   }
 }
 
-watch(parsedMarkdown, () =>{
-  emits('passParsedMd', parsedMarkdown)
-})
 </script>
 
 <template>
   <section>
     <div class="bg-base-300 flex justify-between px-2">
       <div class="flex items-center">
+        <span class="text-base">Document: </span>
         <input
           type="text"
           v-model="title"
           placeholder="Document Name"
-          class="bg-transparent text-lg focus:outline-none focus:ring-0 focus:text-info hover:text-info transition-all duration-200 ease-in-out"
+          class="bg-transparent text-lg pl-2 focus:outline-none focus:ring-0  text-info transition-all duration-200 ease-in-out"
           @blur="handleBlur"
         />
       </div>

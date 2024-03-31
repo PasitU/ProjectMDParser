@@ -28,9 +28,6 @@ const router = createRouter({
       name: 'preview',
       component: () => import('../views/PreView.vue'),
       props: true,
-      meta: {
-        requiresAuth: true
-      }
     },
     {
       path: '/register',
