@@ -21,7 +21,7 @@ onMounted(parseMarkdown)
 
 watch(markdown, parseMarkdown)
 watch(parsedMarkdown, () =>{
-  emits('passParsedMd', parsedMarkdown)
+  emits('passParsedMd', parsedMarkdown.value)
 })
 
 function parseMarkdown() {
@@ -48,9 +48,6 @@ function handleBlur() {
   }
 }
 
-watch(parsedMarkdown, () =>{
-  emits('passParsedMd', parsedMarkdown)
-})
 </script>
 
 <template>
