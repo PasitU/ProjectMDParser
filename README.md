@@ -6,7 +6,6 @@
 
 ## Group member
 
----
 
 - **Chanakarn Kruehong | 65130500013**
   - **Task**: Navigation Component, SideBar Component, NavBar Component, User's Profile
@@ -32,6 +31,10 @@ Features
 1. Markdown Editor: dynamic editing interface for Markdown content supports general markdown such as Heading, lists, code and more.
 2. Authentication: manage user authentication and global state.
 3. CRUD operation: Interactive UI for accessing and managing Markdown documents.
+
+## Components Hierarchy Tree
+![Component Tree](/public/component-tree.png)
+[Click Here for Full Diagram](https://www.figma.com/file/UhwE4Ir2oBWrymbNLxCUAn/Markable-Webflow?type=whiteboard&node-id=147%3A120&t=nX7hpNrEJPtvPJJj-1)
 
 ## Reference
 1. [Frontend Mentor Markdown Editor](https://www.frontendmentor.io/challenges/inbrowser-markdown-editor-r16TrrQX9)
