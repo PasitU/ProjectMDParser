@@ -15,6 +15,7 @@
               class="input input-bordered placeholder-gray-500 border text-gray-200"
               v-model="credential.username"
               required
+              @keydown.enter="login"
             />
           </div>
           <div class="form-control">
@@ -27,6 +28,7 @@
               class="input input-bordered placeholder-gray-500 border text-gray-200"
               v-model="credential.password"
               required
+              @keydown.enter="login"
             />
             <label class="text-right mt-2">
               <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
