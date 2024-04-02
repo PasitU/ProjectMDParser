@@ -1,8 +1,7 @@
 # PROJECT2-SEC-1-Password Generator Application
 
 ## Video
-
-[Click here to watch a video introducing the functions Markdown pressure App](https://int203-project-password-secure.vercel.app/)
+[Click here to watch a video introducing the functions Markdown parser App](https://youtu.be/coUzKOD3-Zo?si=PYMehrpMhdO5qSzj)
 
 ## Group member
 
