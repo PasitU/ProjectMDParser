@@ -32,7 +32,7 @@ Features
 3. CRUD operation: Interactive UI for accessing and managing Markdown documents.
 
 ## Components Hierarchy Tree
-![Component Tree](/public/component-tree.png)
+![Component Tree](/docs/component-tree.png)
 [Click Here for Full Diagram](https://www.figma.com/file/UhwE4Ir2oBWrymbNLxCUAn/Markable-Webflow?type=whiteboard&node-id=147%3A120&t=nX7hpNrEJPtvPJJj-1)
 
 ## Reference
